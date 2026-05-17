@@ -2,1843 +2,2450 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Santo Espeto — Restaurante & Pizzaria</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Santo Espeto — Restaurante & Pizzaria Premium</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════════════════════════════════════════
-   ROOT VARIABLES
-═══════════════════════════════════════════════════ */
-:root{
-  --bg:#080808;
-  --bg2:#0f0f0f;
-  --bg3:#161616;
-  --bg4:#1e1e1e;
-  --bg5:#252525;
-  --gold:#f0b429;
-  --gold2:#e6a817;
-  --gold3:#ffd166;
-  --gold-dim:rgba(240,180,41,0.12);
-  --gold-glow:rgba(240,180,41,0.28);
-  --gold-glow2:rgba(240,180,41,0.08);
-  --white:#ffffff;
-  --white2:#e8e8e8;
-  --muted:#6b6b6b;
-  --muted2:#3a3a3a;
-  --red:#ff3b3b;
-  --green:#22c55e;
-  --border:rgba(255,255,255,0.07);
-  --border-gold:rgba(240,180,41,0.25);
-  --r:14px;
-  --r2:20px;
-  --r3:28px;
-  --ease:cubic-bezier(.4,0,.2,1);
-  --bounce:cubic-bezier(.34,1.56,.64,1);
+:root {
+  --gold: #D4A843;
+  --gold-light: #F0C866;
+  --gold-dark: #A07820;
+  --black: #0A0A0A;
+  --black-2: #111111;
+  --black-3: #1A1A1A;
+  --black-4: #222222;
+  --black-5: #2D2D2D;
+  --white: #F5F0E8;
+  --white-dim: rgba(245,240,232,0.7);
+  --glass: rgba(255,255,255,0.04);
+  --glass-border: rgba(212,168,67,0.15);
+  --shadow: 0 8px 40px rgba(0,0,0,0.6);
+  --shadow-gold: 0 4px 24px rgba(212,168,67,0.2);
 }
 
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;font-size:16px;-webkit-text-size-adjust:100%}
-body{
-  background:var(--bg);
-  color:var(--white);
-  font-family:'DM Sans',sans-serif;
-  overflow-x:hidden;
-  min-height:100dvh;
-  -webkit-font-smoothing:antialiased;
-}
-img{display:block;max-width:100%}
-button{font-family:'DM Sans',sans-serif;cursor:pointer}
-input,textarea{font-family:'DM Sans',sans-serif}
-a{text-decoration:none}
-::-webkit-scrollbar{width:4px}
-::-webkit-scrollbar-track{background:var(--bg)}
-::-webkit-scrollbar-thumb{background:var(--bg5);border-radius:4px}
-::-webkit-scrollbar-thumb:hover{background:var(--gold)}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* ═══════════════════════════════════════════════════
-   LOADING SCREEN
-═══════════════════════════════════════════════════ */
-#loading{
-  position:fixed;inset:0;z-index:9999;
-  background:var(--bg);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:28px;
-  transition:opacity .7s var(--ease),visibility .7s var(--ease);
-}
-#loading.out{opacity:0;visibility:hidden;pointer-events:none}
-.ld-ring{
-  width:72px;height:72px;position:relative;
-}
-.ld-ring svg{animation:spin 1.4s linear infinite;width:72px;height:72px}
-.ld-ring circle{
-  fill:none;stroke-width:3;stroke-linecap:round;
-  stroke-dasharray:180;stroke-dashoffset:60;
-}
-.ld-ring .track{stroke:var(--bg4)}
-.ld-ring .arc{
-  stroke:var(--gold);
-  filter:drop-shadow(0 0 8px var(--gold));
-  animation:spin 1.4s linear infinite;
-  transform-origin:center;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-.ld-logo{
-  font-family:'Cormorant Garamond',serif;
-  font-size:2.2rem;font-weight:700;
-  color:var(--white);letter-spacing:2px;
-  text-align:center;
-}
-.ld-logo em{color:var(--gold);font-style:normal;text-shadow:0 0 30px var(--gold-glow)}
-.ld-sub{
-  font-size:.78rem;letter-spacing:3px;text-transform:uppercase;
-  color:var(--muted);font-weight:500;
-}
-.ld-bar{width:180px;height:2px;background:var(--bg4);border-radius:2px;overflow:hidden}
-.ld-fill{height:100%;width:0;background:linear-gradient(90deg,var(--gold2),var(--gold3));
-  animation:lfill 1.9s var(--ease) forwards}
-@keyframes lfill{to{width:100%}}
+html { scroll-behavior: smooth; }
 
-/* ═══════════════════════════════════════════════════
-   NAVBAR
-═══════════════════════════════════════════════════ */
-#nav{
-  position:fixed;top:0;left:0;right:0;z-index:800;
-  height:66px;padding:0 20px;
-  display:flex;align-items:center;justify-content:space-between;
-  transition:background .4s var(--ease),backdrop-filter .4s var(--ease),border-color .4s var(--ease);
-  border-bottom:1px solid transparent;
-}
-#nav.on{
-  background:rgba(8,8,8,0.88);
-  backdrop-filter:blur(24px) saturate(1.4);
-  border-color:var(--border);
-}
-.nav-brand{
-  font-family:'Cormorant Garamond',serif;
-  font-size:1.5rem;font-weight:700;letter-spacing:.5px;
-  color:var(--white);display:flex;align-items:baseline;gap:6px;
-}
-.nav-brand em{color:var(--gold);font-style:normal;text-shadow:0 0 24px var(--gold-glow)}
-.nav-center{display:flex;gap:6px;align-items:center}
-.nav-link{
-  color:var(--muted);font-size:.85rem;font-weight:500;
-  padding:7px 14px;border-radius:50px;
-  transition:all .25s var(--ease);
-}
-.nav-link:hover{color:var(--white);background:rgba(255,255,255,0.06)}
-.nav-right{display:flex;align-items:center;gap:10px}
-.nav-wpp{
-  display:flex;align-items:center;gap:7px;
-  background:rgba(37,211,102,0.12);border:1px solid rgba(37,211,102,0.25);
-  color:#25d366;padding:7px 14px;border-radius:50px;
-  font-size:.82rem;font-weight:600;
-  transition:all .25s var(--ease);
-}
-.nav-wpp:hover{background:rgba(37,211,102,0.2);border-color:rgba(37,211,102,0.5)}
-.nav-cart{
-  position:relative;
-  background:var(--gold);color:var(--bg);
-  border:none;padding:8px 18px 8px 14px;border-radius:50px;
-  display:flex;align-items:center;gap:8px;
-  font-size:.85rem;font-weight:700;
-  box-shadow:0 4px 20px var(--gold-glow);
-  transition:all .25s var(--ease);
-}
-.nav-cart:hover{transform:translateY(-2px);box-shadow:0 8px 30px var(--gold-glow)}
-.nc-badge{
-  min-width:20px;height:20px;padding:0 5px;border-radius:10px;
-  background:var(--bg);color:var(--gold);
-  font-size:.7rem;font-weight:700;display:flex;align-items:center;justify-content:center;
-  display:none;
-}
-.nc-badge.on{display:flex}
-.hbg{display:none;flex-direction:column;gap:4.5px;padding:6px;cursor:pointer}
-.hbg span{display:block;width:22px;height:2px;background:var(--white2);border-radius:2px;
-  transition:all .3s var(--ease)}
-
-/* mobile menu */
-#mmenu{
-  display:none;position:fixed;top:66px;inset-x:0;z-index:799;
-  background:rgba(10,10,10,0.96);backdrop-filter:blur(24px);
-  border-bottom:1px solid var(--border);
-  padding:8px 16px 20px;flex-direction:column;
-}
-#mmenu.on{display:flex}
-.mm-link{
-  color:var(--white2);font-size:1rem;font-weight:500;
-  padding:14px 8px;border-bottom:1px solid var(--border);
-  display:flex;align-items:center;gap:10px;
-  transition:color .2s;
-}
-.mm-link:last-child{border-bottom:none}
-.mm-link:hover{color:var(--gold)}
-
-/* ═══════════════════════════════════════════════════
-   HERO
-═══════════════════════════════════════════════════ */
-#hero{
-  min-height:100dvh;position:relative;
-  display:flex;align-items:center;justify-content:center;
-  padding:80px 24px 60px;overflow:hidden;
-}
-.hero-noise{
-  position:absolute;inset:0;opacity:.025;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-}
-.hero-grid{
-  position:absolute;inset:0;
-  background-image:
-    linear-gradient(rgba(240,180,41,0.045) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(240,180,41,0.045) 1px,transparent 1px);
-  background-size:70px 70px;
-  mask-image:radial-gradient(ellipse 80% 70% at 50% 50%,black 0%,transparent 100%);
-}
-.hero-orb1{
-  position:absolute;top:-10%;right:-5%;
-  width:min(700px,90vw);height:min(700px,90vw);
-  background:radial-gradient(circle,rgba(240,180,41,0.09) 0%,transparent 70%);
-  pointer-events:none;
-  animation:orbpulse 6s ease-in-out infinite;
-}
-.hero-orb2{
-  position:absolute;bottom:-15%;left:-10%;
-  width:min(500px,70vw);height:min(500px,70vw);
-  background:radial-gradient(circle,rgba(240,180,41,0.05) 0%,transparent 70%);
-  pointer-events:none;
-  animation:orbpulse 8s ease-in-out infinite reverse;
-}
-@keyframes orbpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
-.hero-body{position:relative;z-index:2;text-align:center;max-width:740px}
-.hero-pill{
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(240,180,41,0.09);
-  border:1px solid rgba(240,180,41,0.22);
-  color:var(--gold);padding:6px 16px;border-radius:50px;
-  font-size:.75rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
-  margin-bottom:28px;
-  animation:fadeup .7s var(--ease) both;
-}
-.hero-pill::before{content:'●';font-size:.5rem;animation:blink 1.4s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.hero-h1{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(3rem,9vw,6.2rem);
-  font-weight:700;line-height:1.02;
-  margin-bottom:24px;
-  animation:fadeup .7s .12s var(--ease) both;
-}
-.hero-h1 .accent{
-  color:var(--gold);
-  text-shadow:0 0 80px rgba(240,180,41,.5);
-  display:block;
-}
-.hero-p{
-  font-size:clamp(1rem,2.4vw,1.18rem);
-  color:#8a8a8a;line-height:1.75;
-  max-width:500px;margin:0 auto 40px;font-weight:400;
-  animation:fadeup .7s .24s var(--ease) both;
-}
-.hero-actions{
-  display:flex;gap:12px;justify-content:center;flex-wrap:wrap;
-  animation:fadeup .7s .36s var(--ease) both;
-}
-.btn-gold{
-  background:var(--gold);color:var(--bg);
-  border:none;padding:15px 32px;border-radius:50px;
-  font-size:.95rem;font-weight:700;
-  box-shadow:0 0 40px var(--gold-glow),0 4px 20px rgba(0,0,0,.4);
-  transition:all .3s var(--ease);
-  display:inline-flex;align-items:center;gap:8px;
-}
-.btn-gold:hover{transform:translateY(-3px);box-shadow:0 0 60px var(--gold-glow),0 12px 30px rgba(0,0,0,.3)}
-.btn-outline{
-  background:transparent;
-  border:1.5px solid rgba(240,180,41,0.4);
-  color:var(--white);padding:15px 32px;border-radius:50px;
-  font-size:.95rem;font-weight:600;
-  transition:all .3s var(--ease);
-  display:inline-flex;align-items:center;gap:8px;
-}
-.btn-outline:hover{border-color:var(--gold);background:rgba(240,180,41,0.07);transform:translateY(-3px)}
-.hero-scroll{
-  position:absolute;bottom:36px;left:50%;transform:translateX(-50%);
-  display:flex;flex-direction:column;align-items:center;gap:6px;
-  color:var(--muted);font-size:.7rem;letter-spacing:2px;text-transform:uppercase;
-}
-.scroll-track{width:1.5px;height:40px;background:var(--muted2);border-radius:2px;
-  position:relative;overflow:hidden}
-.scroll-fill{
-  position:absolute;top:-100%;left:0;right:0;
-  background:var(--gold);height:100%;
-  animation:scrolldown 2s ease-in-out infinite;
-}
-@keyframes scrolldown{0%{top:-100%}50%,100%{top:100%}}
-
-@keyframes fadeup{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
-
-/* floating particles */
-.particle{
-  position:absolute;pointer-events:none;
-  border-radius:50%;
-  animation:float linear infinite;
-  opacity:0;
-}
-@keyframes float{
-  0%{opacity:0;transform:translateY(0) rotate(0deg)}
-  10%{opacity:.6}
-  90%{opacity:.4}
-  100%{opacity:0;transform:translateY(-100vh) rotate(360deg)}
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
 }
 
-/* ═══════════════════════════════════════════════════
-   STRIP / FEATURES
-═══════════════════════════════════════════════════ */
-.strip{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  border-top:1px solid var(--border);
-  border-bottom:1px solid var(--border);
-  background:var(--bg2);
+/* ═══════════════ LOADING SCREEN ═══════════════ */
+#loading {
+  position: fixed; inset: 0;
+  background: var(--black);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
 }
-.strip-item{
-  padding:22px 20px;
-  display:flex;align-items:center;gap:14px;
-  border-right:1px solid var(--border);
-  transition:background .25s;
-}
-.strip-item:last-child{border-right:none}
-.strip-item:hover{background:var(--gold-dim)}
-.si-icon{
-  width:44px;height:44px;
-  background:var(--gold-dim);border:1px solid var(--border-gold);
-  border-radius:12px;display:flex;align-items:center;justify-content:center;
-  font-size:1.3rem;flex-shrink:0;
-  transition:all .25s;
-}
-.strip-item:hover .si-icon{background:rgba(240,180,41,0.2);box-shadow:0 0 20px var(--gold-glow)}
-.si-text strong{display:block;font-size:.88rem;font-weight:600;margin-bottom:2px}
-.si-text span{font-size:.77rem;color:var(--muted);font-weight:400}
+#loading.hidden { opacity: 0; visibility: hidden; }
 
-/* ═══════════════════════════════════════════════════
-   SECTION COMMON
-═══════════════════════════════════════════════════ */
-.sec{padding:88px 20px}
-.sec-hd{text-align:center;margin-bottom:56px}
-.sec-tag{
-  display:inline-block;
-  font-size:.72rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;
-  color:var(--gold);margin-bottom:14px;
+.loading-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: var(--gold);
+  letter-spacing: 2px;
 }
-.sec-h2{
-  font-family:'Cormorant Garamond',serif;
-  font-size:clamp(2.2rem,5vw,3.4rem);font-weight:700;
-  line-height:1.08;margin-bottom:14px;
+.loading-logo span { color: var(--white); }
+
+.loading-bar {
+  width: 180px;
+  height: 2px;
+  background: var(--black-5);
+  border-radius: 2px;
+  overflow: hidden;
 }
-.sec-h2 em{color:var(--gold);font-style:normal}
-.sec-rule{
-  width:48px;height:2px;margin:0 auto;
-  background:linear-gradient(90deg,var(--gold2),var(--gold3));border-radius:2px;
+.loading-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+  border-radius: 2px;
+  animation: loadFill 1.8s ease forwards;
+}
+@keyframes loadFill {
+  from { width: 0; }
+  to { width: 100%; }
 }
 
-/* ═══════════════════════════════════════════════════
-   CARDÁPIO — CATEGORY NAV
-═══════════════════════════════════════════════════ */
-#cardapio{background:var(--bg)}
-.cat-scroll{
-  display:flex;gap:8px;overflow-x:auto;
-  padding-bottom:4px;margin-bottom:40px;
-  scrollbar-width:none;
-}
-.cat-scroll::-webkit-scrollbar{display:none}
-.cat-pill{
-  flex-shrink:0;
-  background:var(--bg3);border:1px solid var(--border);
-  color:var(--muted);padding:9px 18px;border-radius:50px;
-  font-size:.82rem;font-weight:500;
-  transition:all .25s var(--ease);white-space:nowrap;
-  cursor:pointer;
-}
-.cat-pill:hover{border-color:var(--border-gold);color:var(--white)}
-.cat-pill.on{
-  background:var(--gold);color:var(--bg);
-  border-color:var(--gold);font-weight:700;
-  box-shadow:0 4px 24px var(--gold-glow);
+/* ═══════════════ NAVBAR ═══════════════ */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 0 24px;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(10,10,10,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  transition: all 0.3s ease;
 }
 
-/* ═══════════════════════════════════════════════════
-   PRODUCT CARDS
-═══════════════════════════════════════════════════ */
-.p-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
-  gap:18px;max-width:1240px;margin:0 auto;
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--gold);
+  text-decoration: none;
+  letter-spacing: 1px;
 }
-.p-cat{display:none}
-.p-cat.on{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px;max-width:1240px;margin:0 auto}
+.nav-logo span { color: var(--white); }
 
-.pcard{
-  background:var(--bg2);
-  border:1px solid var(--border);
-  border-radius:var(--r2);
-  overflow:hidden;
-  transition:all .35s var(--ease);
-  position:relative;cursor:pointer;
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
 }
-.pcard::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(240,180,41,0.05) 0%,transparent 60%);
-  opacity:0;transition:opacity .35s;
-  pointer-events:none;
+.nav-links a {
+  color: var(--white-dim);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: color 0.2s;
 }
-.pcard:hover{
-  transform:translateY(-8px);
-  border-color:var(--border-gold);
-  box-shadow:0 24px 60px rgba(0,0,0,.5),0 0 0 1px rgba(240,180,41,.15);
-}
-.pcard:hover::before{opacity:1}
-.pcard-img{
-  height:190px;background:var(--bg3);
-  display:flex;align-items:center;justify-content:center;
-  font-size:5rem;position:relative;overflow:hidden;
-}
-.pcard-img::after{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(to bottom,transparent 40%,rgba(0,0,0,.6));
-}
-.pcard-img-inner{
-  position:absolute;inset:0;
-  display:flex;align-items:center;justify-content:center;
-  font-size:5rem;
-  transition:transform .5s var(--ease);
-}
-.pcard:hover .pcard-img-inner{transform:scale(1.1)}
-.pcard-body{padding:18px 20px 22px}
-.pcard-cat-tag{
-  font-size:.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
-  color:var(--gold);margin-bottom:8px;opacity:.8;
-}
-.pcard-name{font-size:.97rem;font-weight:600;margin-bottom:7px;line-height:1.35}
-.pcard-desc{font-size:.8rem;color:var(--muted);line-height:1.55;margin-bottom:16px;min-height:38px}
-/* pizza sizes */
-.sz-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px}
-.sz-chip{
-  background:var(--bg4);border:1px solid var(--border);
-  color:var(--muted);padding:4px 10px;border-radius:20px;
-  font-size:.72rem;font-weight:600;cursor:pointer;
-  transition:all .2s var(--ease);
-}
-.sz-chip:hover{border-color:var(--border-gold);color:var(--gold)}
-.sz-chip.on{background:var(--gold);color:var(--bg);border-color:var(--gold)}
-.pcard-foot{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.pcard-price{
-  font-family:'Syne',sans-serif;
-  font-size:1.18rem;font-weight:700;color:var(--gold);
-}
-.pcard-price small{font-size:.72rem;color:var(--muted);font-family:'DM Sans',sans-serif;font-weight:400}
-.add-btn{
-  background:var(--gold);color:var(--bg);
-  border:none;padding:9px 18px;border-radius:50px;
-  font-size:.82rem;font-weight:700;
-  display:flex;align-items:center;gap:5px;
-  transition:all .25s var(--bounce);
-  flex-shrink:0;
-}
-.add-btn:hover{transform:scale(1.06);box-shadow:0 4px 20px var(--gold-glow)}
-.add-btn:active{transform:scale(.96)}
-.add-btn.pop{animation:btnpop .35s var(--bounce)}
-@keyframes btnpop{0%{transform:scale(1)}50%{transform:scale(1.18)}100%{transform:scale(1)}}
+.nav-links a:hover { color: var(--gold); }
 
-/* ═══════════════════════════════════════════════════
-   SOBRE SECTION
-═══════════════════════════════════════════════════ */
-#sobre{background:var(--bg2);position:relative;overflow:hidden}
-#sobre::before{
-  content:'';position:absolute;top:-200px;right:-200px;
-  width:600px;height:600px;
-  background:radial-gradient(circle,rgba(240,180,41,0.04) 0%,transparent 70%);
-  pointer-events:none;
+.nav-cart-btn {
+  position: relative;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  color: var(--black);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.25s ease;
+  white-space: nowrap;
 }
-.sobre-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;max-width:1100px;margin:0 auto;align-items:center}
-.sb-tagline{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:700;line-height:1.15;margin-bottom:20px}
-.sb-tagline em{color:var(--gold);font-style:normal}
-.sb-p{color:var(--muted);line-height:1.8;font-size:.92rem;margin-bottom:14px}
-.sb-stats{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:32px}
-.stat{
-  background:var(--bg3);border:1px solid var(--border);
-  border-radius:var(--r);padding:20px;text-align:center;
-  transition:all .3s var(--ease);
+.nav-cart-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-gold);
 }
-.stat:hover{border-color:var(--border-gold);background:var(--gold-dim)}
-.stat-n{
-  font-family:'Cormorant Garamond',serif;
-  font-size:2.4rem;font-weight:700;color:var(--gold);display:block;line-height:1;
+.cart-badge {
+  background: var(--black);
+  color: var(--gold);
+  border-radius: 50%;
+  width: 20px; height: 20px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 800;
 }
-.stat-l{font-size:.77rem;color:var(--muted);margin-top:4px;font-weight:400}
-.sb-cards{display:flex;flex-direction:column;gap:14px}
-.sbcard{
-  background:var(--bg3);border:1px solid var(--border);
-  border-radius:var(--r);padding:18px 22px;
-  display:flex;align-items:center;gap:16px;
-  transition:all .3s var(--ease);
-}
-.sbcard:hover{border-color:var(--border-gold);transform:translateX(8px);background:var(--bg4)}
-.sbc-icon{
-  width:50px;height:50px;background:var(--gold-dim);border:1px solid var(--border-gold);
-  border-radius:14px;display:flex;align-items:center;justify-content:center;
-  font-size:1.5rem;flex-shrink:0;
-}
-.sbc-t strong{display:block;font-size:.92rem;font-weight:600;margin-bottom:3px}
-.sbc-t span{font-size:.8rem;color:var(--muted)}
 
-/* ═══════════════════════════════════════════════════
-   CONTATO / CTA
-═══════════════════════════════════════════════════ */
-#contato{background:var(--bg);position:relative;overflow:hidden;text-align:center}
-.cta-glow{
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  width:800px;height:400px;
-  background:radial-gradient(ellipse,rgba(240,180,41,0.07) 0%,transparent 70%);
-  pointer-events:none;
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--white);
+  font-size: 1.5rem;
+  cursor: pointer;
 }
-.cta-card{
-  max-width:640px;margin:0 auto;
-  background:var(--bg2);border:1px solid var(--border-gold);
-  border-radius:var(--r3);padding:56px 40px;
-  position:relative;z-index:2;
-  box-shadow:0 0 80px rgba(240,180,41,0.06);
-}
-.cta-p{color:var(--muted);line-height:1.75;margin-bottom:36px;font-size:.95rem}
-.cta-wpp{
-  display:inline-flex;align-items:center;gap:10px;
-  background:#25d366;color:#fff;
-  padding:16px 36px;border-radius:50px;
-  font-size:1rem;font-weight:700;
-  box-shadow:0 0 40px rgba(37,211,102,0.3);
-  transition:all .3s var(--ease);
-  margin-bottom:28px;
-}
-.cta-wpp:hover{transform:translateY(-4px);box-shadow:0 0 60px rgba(37,211,102,0.45)}
-.social-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.soc-btn{
-  display:flex;align-items:center;gap:8px;
-  background:var(--bg3);border:1px solid var(--border);
-  color:var(--white2);padding:11px 20px;border-radius:50px;
-  font-size:.85rem;font-weight:500;
-  transition:all .25s var(--ease);
-}
-.soc-btn:hover{border-color:var(--border-gold);color:var(--gold);transform:translateY(-2px)}
 
-/* ═══════════════════════════════════════════════════
-   FOOTER
-═══════════════════════════════════════════════════ */
-footer{
-  background:var(--bg2);border-top:1px solid var(--border);
-  padding:40px 20px;text-align:center;
+/* ═══════════════ HERO ═══════════════ */
+#hero {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
-.ft-brand{
-  font-family:'Cormorant Garamond',serif;
-  font-size:1.6rem;font-weight:700;color:var(--gold);
-  text-shadow:0 0 20px var(--gold-glow);margin-bottom:10px;
-}
-.ft-info{font-size:.82rem;color:var(--muted);line-height:1.9}
-.ft-copy{font-size:.74rem;color:var(--muted2);margin-top:20px}
 
-/* ═══════════════════════════════════════════════════
-   FLOATING CART FAB
-═══════════════════════════════════════════════════ */
-#fab{
-  position:fixed;bottom:28px;right:22px;z-index:700;
-  width:62px;height:62px;border-radius:50%;border:none;
-  background:var(--gold);color:var(--bg);
-  font-size:1.5rem;
-  box-shadow:0 0 0 0 var(--gold-glow),0 8px 30px rgba(0,0,0,.5);
-  display:flex;align-items:center;justify-content:center;
-  transition:all .35s var(--bounce);
-  transform:scale(0) translateY(20px);
-  opacity:0;
+.hero-bg {
+  position: absolute; inset: 0;
+  background: 
+    linear-gradient(160deg, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.6) 50%, rgba(10,10,10,0.88) 100%),
+    url('https://images.unsplash.com/photo-1513104890138-7c749659a591?w=1600&q=80') center/cover no-repeat;
+  animation: heroPan 20s ease-in-out infinite alternate;
 }
-#fab.on{transform:scale(1) translateY(0);opacity:1}
-#fab:hover{transform:scale(1.1) translateY(0);box-shadow:0 0 0 12px rgba(240,180,41,0.15),0 12px 40px rgba(0,0,0,.4)}
-.fab-ring{
-  position:absolute;inset:-4px;border-radius:50%;
-  border:2px solid rgba(240,180,41,0.4);
-  animation:fabring 2s ease-in-out infinite;
+@keyframes heroPan {
+  from { background-position: center 40%; }
+  to { background-position: center 60%; }
 }
-@keyframes fabring{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.15);opacity:0}}
-.fab-badge2{
-  position:absolute;top:-5px;right:-5px;
-  min-width:22px;height:22px;padding:0 5px;border-radius:11px;
-  background:var(--red);color:#fff;
-  font-size:.68rem;font-weight:700;
-  display:flex;align-items:center;justify-content:center;
-  border:2px solid var(--bg);
-  display:none;
-}
-.fab-badge2.on{display:flex}
 
-/* ═══════════════════════════════════════════════════
-   CART — OVERLAY
-═══════════════════════════════════════════════════ */
-#cart-ov{
-  position:fixed;inset:0;z-index:900;
-  background:rgba(0,0,0,0);
-  pointer-events:none;
-  backdrop-filter:blur(0px);
-  transition:background .35s var(--ease),backdrop-filter .35s var(--ease);
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(212,168,67,0.08) 0%, transparent 60%);
 }
-#cart-ov.on{background:rgba(0,0,0,.72);backdrop-filter:blur(6px);pointer-events:all}
 
-/* ═══════════════════════════════════════════════════
-   CART SIDEBAR
-═══════════════════════════════════════════════════ */
-#cart{
-  position:fixed;top:0;right:-100%;bottom:0;
-  width:min(460px,100vw);z-index:901;
-  background:var(--bg2);
-  border-left:1px solid var(--border);
-  display:flex;flex-direction:column;
-  transition:right .4s cubic-bezier(.4,0,.2,1);
-  box-shadow:-30px 0 80px rgba(0,0,0,.6);
+.hero-content {
+  position: relative;
+  text-align: center;
+  padding: 120px 24px 80px;
+  max-width: 820px;
 }
-#cart.on{right:0}
-.cart-h{
-  padding:18px 20px 16px;
-  border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-  flex-shrink:0;
-}
-.cart-htitle{
-  font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;
-  display:flex;align-items:center;gap:8px;
-}
-.cart-htitle em{color:var(--gold);font-style:normal}
-.cart-hclose{
-  width:34px;height:34px;background:var(--bg4);border:1px solid var(--border);
-  border-radius:10px;display:flex;align-items:center;justify-content:center;
-  color:var(--muted);font-size:1rem;cursor:pointer;
-  transition:all .2s;
-}
-.cart-hclose:hover{background:var(--bg5);color:var(--white)}
 
-/* step indicator */
-.cart-steps{
-  display:flex;align-items:center;padding:14px 20px;
-  border-bottom:1px solid var(--border);flex-shrink:0;gap:0;
+.hero-tag {
+  display: inline-block;
+  background: rgba(212,168,67,0.12);
+  border: 1px solid rgba(212,168,67,0.3);
+  color: var(--gold);
+  padding: 6px 18px;
+  border-radius: 50px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+  animation: fadeUp 0.8s ease both;
 }
-.cstep{
-  display:flex;align-items:center;gap:7px;flex:1;
-  font-size:.75rem;font-weight:600;color:var(--muted);
-  transition:color .3s;
-}
-.cstep.on{color:var(--gold)}
-.cstep.done{color:var(--green)}
-.cstep-dot{
-  width:26px;height:26px;border-radius:50%;
-  border:2px solid var(--muted2);
-  display:flex;align-items:center;justify-content:center;
-  font-size:.72rem;font-weight:700;flex-shrink:0;
-  transition:all .3s var(--ease);
-  background:transparent;
-}
-.cstep.on .cstep-dot{border-color:var(--gold);background:var(--gold-dim);color:var(--gold)}
-.cstep.done .cstep-dot{border-color:var(--green);background:rgba(34,197,94,0.1);color:var(--green)}
-.cstep-conn{flex:1;height:1px;background:var(--border);margin:0 6px;transition:background .3s}
-.cstep.done + .cstep-conn{background:var(--green)}
 
-.cart-body{flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--bg5) transparent}
-.cart-panel{display:none;flex-direction:column}
-.cart-panel.on{display:flex}
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.4rem, 6vw, 4.5rem);
+  font-weight: 900;
+  line-height: 1.12;
+  margin-bottom: 20px;
+  animation: fadeUp 0.8s ease 0.15s both;
+}
+.hero-title em {
+  font-style: italic;
+  color: var(--gold);
+}
 
-/* ─── STEP 1: ITEMS ─── */
-.cart-empty-state{
-  text-align:center;padding:60px 20px;
-  display:flex;flex-direction:column;align-items:center;gap:14px;
+.hero-sub {
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  color: var(--white-dim);
+  font-weight: 300;
+  margin-bottom: 48px;
+  animation: fadeUp 0.8s ease 0.3s both;
 }
-.ces-icon{font-size:4rem;opacity:.3;display:block}
-.ces-t{font-size:.92rem;color:var(--muted)}
-.citem{
-  display:flex;align-items:center;gap:12px;
-  padding:13px 20px;border-bottom:1px solid var(--border);
-  transition:background .2s;
-}
-.citem:hover{background:var(--bg3)}
-.ci-emo{font-size:2rem;width:44px;text-align:center;flex-shrink:0}
-.ci-info{flex:1;min-width:0}
-.ci-name{font-size:.88rem;font-weight:600;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ci-price{font-size:.82rem;color:var(--gold);font-weight:600}
-.ci-ctrl{display:flex;align-items:center;gap:6px;flex-shrink:0}
-.qbtn{
-  width:28px;height:28px;border-radius:8px;
-  background:var(--bg4);border:1px solid var(--border);
-  color:var(--white);font-size:1rem;
-  display:flex;align-items:center;justify-content:center;
-  transition:all .2s var(--bounce);cursor:pointer;
-}
-.qbtn:hover{background:var(--gold);color:var(--bg);border-color:var(--gold);transform:scale(1.1)}
-.qn{font-size:.88rem;font-weight:700;min-width:18px;text-align:center}
-.ci-rm{background:none;border:none;color:var(--muted);font-size:.9rem;padding:4px;
-  border-radius:6px;transition:color .2s;cursor:pointer}
-.ci-rm:hover{color:var(--red)}
 
-.cart-subtotal{
-  padding:12px 20px;
-  display:flex;justify-content:space-between;align-items:center;
-  font-size:.88rem;color:var(--muted);
-  border-bottom:1px solid var(--border);
+.hero-btns {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  animation: fadeUp 0.8s ease 0.45s both;
 }
-.cart-subtotal strong{color:var(--white);font-weight:600}
 
-/* ─── STEP 2: DELIVERY ─── */
-.cart-sec{padding:20px}
-.cart-sec-title{
-  font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
-  color:var(--gold);margin-bottom:14px;
+.btn-primary {
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  color: var(--black);
+  border: none;
+  padding: 16px 36px;
+  border-radius: 50px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
-.deliver-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
-.dopt{
-  background:var(--bg3);border:2px solid var(--border);
-  border-radius:var(--r);padding:14px 12px;
-  text-align:center;cursor:pointer;
-  transition:all .25s var(--ease);
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(212,168,67,0.35);
 }
-.dopt:hover{border-color:var(--border-gold)}
-.dopt.on{border-color:var(--gold);background:var(--gold-dim)}
-.dopt-icon{font-size:1.6rem;display:block;margin-bottom:6px}
-.dopt-label{font-size:.82rem;font-weight:600}
-.field-group{display:flex;flex-direction:column;gap:10px}
-.field{
-  background:var(--bg3);border:1.5px solid var(--border);
-  color:var(--white);padding:12px 14px;border-radius:12px;
-  font-size:.88rem;outline:none;width:100%;
-  transition:border-color .25s;
-}
-.field::placeholder{color:var(--muted)}
-.field:focus{border-color:rgba(240,180,41,0.5);box-shadow:0 0 0 3px rgba(240,180,41,0.07)}
-.field-label{font-size:.78rem;font-weight:600;color:var(--muted);margin-bottom:4px}
-.fgroup{display:flex;flex-direction:column;gap:4px}
-textarea.field{resize:none;height:72px}
 
-/* ─── STEP 3: PAYMENT ─── */
-.pay-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
-.popt{
-  background:var(--bg3);border:2px solid var(--border);
-  border-radius:var(--r);padding:16px 12px;
-  text-align:center;cursor:pointer;
-  transition:all .25s var(--ease);
+.btn-outline {
+  background: transparent;
+  color: var(--white);
+  border: 1px solid rgba(245,240,232,0.3);
+  padding: 16px 36px;
+  border-radius: 50px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  backdrop-filter: blur(8px);
 }
-.popt:hover{border-color:var(--border-gold)}
-.popt.on{border-color:var(--gold);background:var(--gold-dim)}
-.popt-icon{font-size:1.8rem;display:block;margin-bottom:6px}
-.popt-label{font-size:.82rem;font-weight:600}
-.popt-sub{font-size:.71rem;color:var(--muted);margin-top:2px}
-.troco-box{
-  background:var(--bg3);border:1px solid var(--border-gold);
-  border-radius:var(--r);padding:16px;
-  margin-top:14px;
-  animation:slidedown .3s var(--ease);
+.btn-outline:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  transform: translateY(-2px);
 }
-@keyframes slidedown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
-.card-sub-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;animation:slidedown .3s var(--ease)}
-.csopt{
-  background:var(--bg4);border:2px solid var(--border);
-  border-radius:12px;padding:12px;text-align:center;cursor:pointer;
-  transition:all .25s var(--ease);font-size:.82rem;font-weight:600;
-}
-.csopt:hover{border-color:var(--border-gold)}
-.csopt.on{border-color:var(--gold);background:var(--gold-dim);color:var(--gold)}
 
-/* ─── STEP 4: REVIEW ─── */
-.review-card{
-  margin:16px;background:var(--bg3);border:1px solid var(--border);
-  border-radius:var(--r2);overflow:hidden;
+.hero-scroll {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.5;
+  animation: bounce 2s ease infinite;
 }
-.rc-head{
-  padding:14px 18px;background:var(--gold-dim);border-bottom:1px solid var(--border-gold);
-  font-size:.78rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);
+.hero-scroll span {
+  font-size: 0.72rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
-.rc-item{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:10px 18px;border-bottom:1px solid var(--border);
-  font-size:.85rem;
+.hero-scroll svg { width: 20px; height: 20px; }
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(6px); }
 }
-.rc-item:last-child{border-bottom:none}
-.rc-item-l{color:var(--muted)}
-.rc-item-r{font-weight:600;text-align:right;max-width:55%}
-.rc-total{
-  padding:14px 18px;
-  display:flex;justify-content:space-between;align-items:center;
-  border-top:2px solid var(--border-gold);
-  background:var(--gold-dim);
-}
-.rc-total-l{font-size:.88rem;font-weight:600;color:var(--muted)}
-.rc-total-r{
-  font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700;color:var(--gold);
-}
-.rc-items-list{padding:4px 0}
 
-/* ═══════════════════════════════════════════════════
-   CART FOOTER
-═══════════════════════════════════════════════════ */
-.cart-f{
-  padding:16px 20px;border-top:1px solid var(--border);
-  flex-shrink:0;
-  display:flex;flex-direction:column;gap:12px;
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-.cart-total-row{
-  display:flex;justify-content:space-between;align-items:center;
-}
-.ct-label{font-size:.85rem;color:var(--muted)}
-.ct-value{font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:700;color:var(--gold)}
-.cart-btn-row{display:flex;gap:10px}
-.cbtn-back{
-  background:var(--bg4);border:1px solid var(--border);
-  color:var(--muted);padding:13px 18px;border-radius:50px;
-  font-size:.85rem;font-weight:600;cursor:pointer;
-  transition:all .25s;flex-shrink:0;
-  display:flex;align-items:center;gap:6px;
-}
-.cbtn-back:hover{color:var(--white);border-color:var(--border-gold)}
-.cbtn-next{
-  flex:1;background:var(--gold);color:var(--bg);
-  border:none;padding:13px 20px;border-radius:50px;
-  font-size:.92rem;font-weight:700;cursor:pointer;
-  box-shadow:0 4px 24px var(--gold-glow);
-  transition:all .3s var(--ease);
-  display:flex;align-items:center;justify-content:center;gap:8px;
-}
-.cbtn-next:hover{transform:translateY(-2px);box-shadow:0 8px 32px var(--gold-glow)}
-.cbtn-next:disabled{background:var(--bg4);color:var(--muted);box-shadow:none;cursor:not-allowed;transform:none}
-.cbtn-wpp{
-  flex:1;background:#25d366;color:#fff;
-  border:none;padding:13px 20px;border-radius:50px;
-  font-size:.92rem;font-weight:700;cursor:pointer;
-  box-shadow:0 4px 24px rgba(37,211,102,0.3);
-  transition:all .3s var(--ease);
-  display:flex;align-items:center;justify-content:center;gap:8px;
-}
-.cbtn-wpp:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(37,211,102,0.45)}
 
-/* ═══════════════════════════════════════════════════
-   TOAST
-═══════════════════════════════════════════════════ */
-#toasts{
-  position:fixed;bottom:110px;left:50%;transform:translateX(-50%);
-  z-index:1200;display:flex;flex-direction:column;align-items:center;gap:8px;
-  pointer-events:none;width:min(340px,90vw);
+/* ═══════════════ STATS STRIP ═══════════════ */
+.stats-strip {
+  background: var(--black-3);
+  border-top: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 28px 24px;
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  flex-wrap: wrap;
 }
-.toast{
-  background:rgba(20,20,20,0.92);
-  border:1px solid rgba(240,180,41,0.3);
-  backdrop-filter:blur(20px);
-  color:var(--white2);
-  padding:11px 22px;border-radius:50px;
-  font-size:.85rem;font-weight:500;
-  display:flex;align-items:center;gap:9px;
-  box-shadow:0 8px 30px rgba(0,0,0,.4);
-  animation:tin .3s var(--bounce),tout .3s var(--ease) 2.2s both;
-  white-space:nowrap;
-}
-.toast.success{border-color:rgba(34,197,94,0.4)}
-.toast.error{border-color:rgba(255,59,59,0.4)}
-@keyframes tin{from{opacity:0;transform:translateY(16px)scale(.9)}to{opacity:1;transform:none}}
-@keyframes tout{to{opacity:0;transform:translateY(-8px)}}
 
-/* ═══════════════════════════════════════════════════
-   SCROLL REVEAL
-═══════════════════════════════════════════════════ */
-.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
-.reveal.visible{opacity:1;transform:none}
+.stat-item {
+  text-align: center;
+}
+.stat-number {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 2.4rem;
+  color: var(--gold);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 0.78rem;
+  color: var(--white-dim);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
 
-/* ═══════════════════════════════════════════════════
-   RESPONSIVE
-═══════════════════════════════════════════════════ */
-@media(max-width:900px){
-  .sobre-grid{grid-template-columns:1fr}
-  .sb-cards{display:none}
-  .strip{grid-template-columns:1fr 1fr}
-  .strip-item:nth-child(2){border-right:none}
-  .strip-item:nth-child(3){border-bottom:none;border-right:1px solid var(--border)}
-  .strip-item:nth-child(4){border-bottom:none;border-right:none}
+/* ═══════════════ SECTION COMMON ═══════════════ */
+section {
+  padding: 96px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
-@media(max-width:768px){
-  .nav-center,.nav-wpp{display:none}
-  .hbg{display:flex}
-  .p-cat.on{grid-template-columns:1fr}
-  .p-grid{grid-template-columns:1fr}
-  .strip{grid-template-columns:1fr 1fr}
-  .sb-stats{grid-template-columns:1fr 1fr}
-  .sec{padding:64px 16px}
-  .cta-card{padding:40px 24px}
+
+.section-tag {
+  display: inline-block;
+  color: var(--gold);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
 }
-@media(max-width:480px){
-  #nav{padding:0 14px}
-  #hero{padding:80px 16px 56px}
-  .hero-actions{flex-direction:column;align-items:center}
-  .btn-gold,.btn-outline{width:100%;max-width:300px;justify-content:center}
-  .strip{grid-template-columns:1fr}
-  .strip-item{border-right:none;border-bottom:1px solid var(--border)}
-  .strip-item:last-child{border-bottom:none}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 900;
+  margin-bottom: 16px;
+  line-height: 1.15;
+}
+.section-title em { color: var(--gold); font-style: italic; }
+
+.section-desc {
+  color: var(--white-dim);
+  font-size: 1rem;
+  line-height: 1.8;
+  max-width: 580px;
+}
+
+/* ═══════════════ ABOUT SECTION ═══════════════ */
+#sobre {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  padding: 96px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.about-imgs {
+  position: relative;
+  height: 480px;
+}
+.about-img-main {
+  position: absolute;
+  top: 0; left: 0;
+  width: 75%;
+  height: 80%;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+}
+.about-img-sec {
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 55%;
+  height: 55%;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  border: 3px solid var(--black);
+}
+.about-img-accent {
+  position: absolute;
+  top: 45%;
+  left: 55%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  box-shadow: var(--shadow-gold);
+  z-index: 10;
+}
+
+.about-text { display: flex; flex-direction: column; gap: 24px; }
+.about-p {
+  color: var(--white-dim);
+  font-size: 1.02rem;
+  line-height: 1.85;
+}
+
+.about-features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 8px;
+}
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.88rem;
+  color: var(--white-dim);
+}
+.feature-dot {
+  width: 8px; height: 8px;
+  background: var(--gold);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ═══════════════ MENU NAV ═══════════════ */
+#cardapio {
+  padding: 96px 0 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+#cardapio > .header-area { padding: 0 24px; margin-bottom: 48px; }
+
+.categories-scroll {
+  display: flex;
+  gap: 10px;
+  padding: 0 24px;
+  overflow-x: auto;
+  margin-bottom: 48px;
+  scrollbar-width: none;
+}
+.categories-scroll::-webkit-scrollbar { display: none; }
+
+.cat-btn {
+  background: var(--black-3);
+  border: 1px solid var(--black-5);
+  color: var(--white-dim);
+  padding: 10px 22px;
+  border-radius: 50px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+.cat-btn:hover, .cat-btn.active {
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  border-color: var(--gold);
+  color: var(--black);
+  font-weight: 700;
+}
+
+.menu-section { padding: 0 24px; margin-bottom: 64px; }
+
+.menu-section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.menu-section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--glass-border);
+  margin-left: 8px;
+}
+
+.menu-section-note {
+  color: var(--gold);
+  font-size: 0.82rem;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.product-card {
+  background: var(--black-3);
+  border: 1px solid var(--black-5);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  position: relative;
+}
+.product-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(212,168,67,0.3);
+  box-shadow: var(--shadow-gold);
+}
+
+.product-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+.product-card:hover .product-img { transform: scale(1.04); }
+
+.product-body {
+  padding: 16px;
+}
+.product-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.product-desc {
+  color: var(--white-dim);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  margin-bottom: 12px;
+  min-height: 38px;
+}
+.product-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.product-price {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--gold);
+}
+.product-price-note {
+  font-size: 0.72rem;
+  color: var(--white-dim);
+  margin-top: 2px;
+}
+.add-btn {
+  width: 38px; height: 38px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  border: none;
+  border-radius: 50%;
+  color: var(--black);
+  font-size: 1.3rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+.add-btn:hover {
+  transform: scale(1.12);
+  box-shadow: var(--shadow-gold);
+}
+
+/* ═══════════════ PIZZA SIZES TABLE ═══════════════ */
+.pizza-sizes {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.size-chip {
+  background: var(--black-4);
+  border: 1px solid var(--black-5);
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 0.72rem;
+  color: var(--white-dim);
+}
+.size-chip span { color: var(--gold); font-weight: 700; }
+
+/* ═══════════════ CONTACT SECTION ═══════════════ */
+#contato {
+  background: var(--black-2);
+  border-top: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--glass-border);
+  margin: 0;
+  max-width: 100%;
+  padding: 96px 24px;
+}
+.contato-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.contact-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 40px;
+}
+
+.contact-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.25s ease;
+  text-decoration: none;
+  color: var(--white);
+}
+.contact-card:hover {
+  background: rgba(212,168,67,0.06);
+  border-color: rgba(212,168,67,0.3);
+  transform: translateY(-2px);
+}
+.contact-card-icon {
+  width: 44px; height: 44px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+}
+.contact-card-label {
+  font-size: 0.75rem;
+  color: var(--white-dim);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.contact-card-value {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.map-area {
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  height: 360px;
+  background: var(--black-3);
+  border: 1px solid var(--glass-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+.map-placeholder-icon { font-size: 3.5rem; }
+.map-placeholder-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--gold);
+}
+.map-placeholder-sub {
+  color: var(--white-dim);
+  font-size: 0.85rem;
+}
+.map-open-btn {
+  margin-top: 8px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  color: var(--black);
+  border: none;
+  padding: 12px 28px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+.map-open-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-gold); }
+
+.delivery-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(212,168,67,0.1);
+  border: 1px solid rgba(212,168,67,0.25);
+  border-radius: 12px;
+  padding: 14px 20px;
+  margin-top: 28px;
+  font-size: 0.9rem;
+  color: var(--gold);
+  font-weight: 500;
+}
+
+/* ═══════════════ FOOTER ═══════════════ */
+footer {
+  background: var(--black);
+  border-top: 1px solid var(--glass-border);
+  padding: 48px 24px 32px;
+  text-align: center;
+}
+.footer-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--gold);
+  margin-bottom: 16px;
+}
+.footer-logo span { color: var(--white); }
+.footer-desc {
+  color: var(--white-dim);
+  font-size: 0.88rem;
+  margin-bottom: 28px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.footer-socials {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.social-link {
+  width: 44px; height: 44px;
+  background: var(--black-3);
+  border: 1px solid var(--black-5);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  color: var(--white);
+}
+.social-link:hover {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--black);
+  transform: translateY(-2px);
+}
+.footer-copy {
+  color: rgba(245,240,232,0.3);
+  font-size: 0.78rem;
+}
+
+/* ═══════════════ CART SIDEBAR ═══════════════ */
+.cart-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
+}
+.cart-overlay.open { opacity: 1; visibility: visible; }
+
+.cart-sidebar {
+  position: fixed;
+  top: 0; right: 0;
+  width: 440px;
+  max-width: 100vw;
+  height: 100vh;
+  background: var(--black-2);
+  border-left: 1px solid var(--glass-border);
+  z-index: 2001;
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.cart-sidebar.open { transform: translateX(0); }
+
+.cart-header {
+  padding: 24px;
+  border-bottom: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+.cart-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+.cart-close {
+  background: var(--black-4);
+  border: none;
+  color: var(--white);
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.cart-close:hover { background: var(--gold); color: var(--black); }
+
+.cart-items {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.cart-items::-webkit-scrollbar { width: 4px; }
+.cart-items::-webkit-scrollbar-track { background: var(--black-3); }
+.cart-items::-webkit-scrollbar-thumb { background: var(--black-5); border-radius: 4px; }
+
+.cart-empty {
+  text-align: center;
+  padding: 80px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  color: var(--white-dim);
+}
+.cart-empty-icon { font-size: 3.5rem; }
+.cart-empty-text { font-family: 'Playfair Display', serif; font-size: 1.1rem; }
+.cart-empty-sub { font-size: 0.85rem; }
+
+.cart-item {
+  background: var(--black-3);
+  border: 1px solid var(--black-5);
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  animation: slideIn 0.25s ease;
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.cart-item-img {
+  width: 64px; height: 64px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+.cart-item-info { flex: 1; min-width: 0; }
+.cart-item-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cart-item-detail {
+  font-size: 0.76rem;
+  color: var(--white-dim);
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+.cart-item-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.qty-btn {
+  width: 28px; height: 28px;
+  background: var(--black-5);
+  border: none;
+  color: var(--white);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+.qty-btn:hover { background: var(--gold); color: var(--black); }
+.qty-num {
+  font-weight: 700;
+  min-width: 24px;
+  text-align: center;
+  font-size: 0.95rem;
+}
+.cart-item-price {
+  font-weight: 700;
+  color: var(--gold);
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+.cart-item-remove {
+  background: none;
+  border: none;
+  color: rgba(245,240,232,0.3);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: color 0.15s;
+  padding: 2px;
+}
+.cart-item-remove:hover { color: #ff5555; }
+
+.cart-footer {
+  padding: 20px;
+  border-top: 1px solid var(--glass-border);
+  background: var(--black);
+  flex-shrink: 0;
+}
+
+.cart-total-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  font-size: 0.88rem;
+  color: var(--white-dim);
+}
+.cart-total-line.main {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--white);
+  border-top: 1px solid var(--glass-border);
+  margin-top: 8px;
+  padding-top: 16px;
+}
+.cart-total-line.main span:last-child { color: var(--gold); }
+
+.checkout-btn {
+  width: 100%;
+  margin-top: 16px;
+  background: linear-gradient(135deg, #25D366, #128C7E);
+  color: #fff;
+  border: none;
+  padding: 16px;
+  border-radius: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.25s ease;
+}
+.checkout-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(37,211,102,0.3);
+}
+.checkout-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ═══════════════ MODALS ═══════════════ */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.8);
+  z-index: 3000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(6px);
+  padding: 0;
+}
+.modal-overlay.open { opacity: 1; visibility: visible; }
+
+.modal {
+  background: var(--black-2);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px 24px 0 0;
+  width: 100%;
+  max-width: 540px;
+  max-height: 92vh;
+  overflow-y: auto;
+  transform: translateY(100%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0 0 32px;
+}
+.modal-overlay.open .modal { transform: translateY(0); }
+.modal::-webkit-scrollbar { display: none; }
+
+.modal-handle {
+  width: 40px; height: 4px;
+  background: var(--black-5);
+  border-radius: 4px;
+  margin: 16px auto 0;
+}
+.modal-header {
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--glass-border);
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.modal-img {
+  width: 90px; height: 90px;
+  object-fit: cover;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+.modal-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.modal-desc-text {
+  font-size: 0.85rem;
+  color: var(--white-dim);
+  line-height: 1.6;
+}
+.modal-body { padding: 20px 24px 0; display: flex; flex-direction: column; gap: 20px; }
+
+.modal-section-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.size-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.size-option {
+  background: var(--black-3);
+  border: 2px solid var(--black-5);
+  border-radius: 10px;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.size-option:hover { border-color: rgba(212,168,67,0.4); }
+.size-option.selected { border-color: var(--gold); background: rgba(212,168,67,0.06); }
+.size-option-name { font-weight: 600; font-size: 0.9rem; }
+.size-option-sub { font-size: 0.78rem; color: var(--white-dim); }
+.size-option-price { color: var(--gold); font-weight: 700; font-size: 1rem; }
+
+.border-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.border-option {
+  background: var(--black-3);
+  border: 2px solid var(--black-5);
+  border-radius: 10px;
+  padding: 11px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.88rem;
+}
+.border-option:hover { border-color: rgba(212,168,67,0.4); }
+.border-option.selected { border-color: var(--gold); background: rgba(212,168,67,0.06); }
+.border-option-price { color: var(--gold); font-weight: 700; }
+
+.flavor-note {
+  background: rgba(212,168,67,0.08);
+  border: 1px solid rgba(212,168,67,0.2);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 0.8rem;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.flavors-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  max-height: 240px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--black-5) transparent;
+}
+.flavor-item {
+  background: var(--black-3);
+  border: 2px solid var(--black-5);
+  border-radius: 8px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.82rem;
+  line-height: 1.3;
+}
+.flavor-item:hover { border-color: rgba(212,168,67,0.4); }
+.flavor-item.selected { border-color: var(--gold); background: rgba(212,168,67,0.06); color: var(--gold); font-weight: 600; }
+
+.obs-input {
+  width: 100%;
+  background: var(--black-3);
+  border: 1px solid var(--black-5);
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.88rem;
+  resize: none;
+  transition: border-color 0.2s;
+}
+.obs-input::placeholder { color: var(--white-dim); }
+.obs-input:focus { outline: none; border-color: rgba(212,168,67,0.5); }
+
+.modal-footer {
+  padding: 20px 24px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.modal-price-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  background: var(--black-3);
+  border-radius: 10px;
+}
+.modal-qty-control {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.modal-qty-btn {
+  width: 36px; height: 36px;
+  background: var(--black-5);
+  border: none;
+  color: var(--white);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+.modal-qty-btn:hover { background: var(--gold); color: var(--black); }
+.modal-qty-num {
+  font-size: 1.1rem;
+  font-weight: 700;
+  min-width: 28px;
+  text-align: center;
+}
+.modal-total {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--gold);
+}
+.modal-add-btn {
+  width: 100%;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  color: var(--black);
+  border: none;
+  padding: 16px;
+  border-radius: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.modal-add-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-gold);
+}
+
+/* ═══════════════ CHECKOUT MODAL ═══════════════ */
+.checkout-modal .modal {
+  border-radius: 24px 24px 0 0;
+}
+.form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+.form-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.form-input {
+  background: var(--black-3);
+  border: 1px solid var(--black-5);
+  border-radius: 10px;
+  padding: 13px 14px;
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.92rem;
+  width: 100%;
+  transition: border-color 0.2s;
+}
+.form-input::placeholder { color: rgba(245,240,232,0.35); }
+.form-input:focus { outline: none; border-color: rgba(212,168,67,0.5); }
+
+.payment-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.pay-option {
+  background: var(--black-3);
+  border: 2px solid var(--black-5);
+  border-radius: 10px;
+  padding: 14px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+.pay-option:hover { border-color: rgba(212,168,67,0.4); }
+.pay-option.selected { border-color: var(--gold); background: rgba(212,168,67,0.06); color: var(--gold); font-weight: 700; }
+.pay-option-icon { font-size: 1.3rem; display: block; margin-bottom: 6px; }
+
+.troco-area {
+  display: none;
+  margin-bottom: 16px;
+}
+.troco-area.visible { display: block; }
+
+.send-whatsapp-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #25D366, #128C7E);
+  color: #fff;
+  border: none;
+  padding: 18px;
+  border-radius: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.25s;
+  margin-top: 8px;
+}
+.send-whatsapp-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(37,211,102,0.35);
+}
+
+/* ═══════════════ JUICE SIZE SELECTOR ═══════════════ */
+.juice-options {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.juice-option {
+  flex: 1;
+  background: var(--black-3);
+  border: 2px solid var(--black-5);
+  border-radius: 10px;
+  padding: 12px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s;
+  font-size: 0.88rem;
+}
+.juice-option:hover { border-color: rgba(212,168,67,0.4); }
+.juice-option.selected { border-color: var(--gold); background: rgba(212,168,67,0.06); }
+.juice-option-label { font-weight: 600; }
+.juice-option-price { color: var(--gold); font-weight: 700; font-size: 0.9rem; margin-top: 4px; }
+
+/* ═══════════════ MOBILE BOTTOM NAV ═══════════════ */
+.mobile-bottom-bar {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 68px;
+  background: rgba(17,17,17,0.95);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid var(--glass-border);
+  z-index: 990;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 8px;
+}
+.mobile-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--white-dim);
+  font-size: 0.68rem;
+  transition: color 0.2s;
+  padding: 8px;
+}
+.mobile-nav-item:hover, .mobile-nav-item.active { color: var(--gold); }
+.mobile-nav-icon { font-size: 1.3rem; }
+
+/* ═══════════════ RESPONSIVE ═══════════════ */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .mobile-menu-btn { display: block; }
+  
+  #sobre {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .about-imgs { height: 300px; }
+  
+  .contato-inner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .contact-cards { grid-template-columns: 1fr 1fr; }
+  
+  .products-grid { grid-template-columns: 1fr; }
+  
+  .mobile-bottom-bar { display: flex; }
+  
+  body { padding-bottom: 68px; }
+  
+  .cart-sidebar { width: 100vw; }
+  
+  .payment-options { grid-template-columns: 1fr 1fr; }
+  
+  .flavors-grid { grid-template-columns: 1fr; }
+  
+  .stats-strip { gap: 28px; }
+}
+
+@media (max-width: 480px) {
+  .contact-cards { grid-template-columns: 1fr; }
+  .hero-btns { flex-direction: column; align-items: center; }
+  .about-features { grid-template-columns: 1fr; }
+}
+
+/* ═══════════════ HIDDEN SECTIONS ═══════════════ */
+.menu-section[data-cat].hidden { display: none; }
+
+/* ═══════════════ SCROLL ANIMATION ═══════════════ */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 </style>
 </head>
 <body>
 
-<!-- ═══ LOADING ═══ -->
+<!-- LOADING SCREEN -->
 <div id="loading">
-  <div class="ld-ring">
-    <svg viewBox="0 0 72 72">
-      <circle class="track" cx="36" cy="36" r="30"/>
-    </svg>
-    <svg style="position:absolute;inset:0" viewBox="0 0 72 72">
-      <circle class="arc" cx="36" cy="36" r="30" stroke-dasharray="120 180" stroke-dashoffset="30"/>
-    </svg>
-  </div>
-  <div class="ld-logo">Santo <em>Espeto</em></div>
-  <div class="ld-sub">Restaurante &amp; Pizzaria</div>
-  <div class="ld-bar"><div class="ld-fill"></div></div>
+  <div class="loading-logo">Santo <span>Espeto</span></div>
+  <div class="loading-bar"><div class="loading-bar-fill"></div></div>
+  <div style="color:var(--white-dim);font-size:0.8rem;letter-spacing:2px;text-transform:uppercase;margin-top:8px;">Preparando seu cardápio...</div>
 </div>
 
-<!-- ═══ NAVBAR ═══ -->
-<nav id="nav">
-  <div class="nav-brand">Santo <em>Espeto</em></div>
-  <div class="nav-center">
-    <a href="#hero" class="nav-link">Início</a>
-    <a href="#cardapio" class="nav-link">Cardápio</a>
-    <a href="#sobre" class="nav-link">Sobre</a>
-    <a href="#contato" class="nav-link">Contato</a>
-  </div>
-  <div class="nav-right">
-    <a href="https://wa.me/5588997643053" target="_blank" class="nav-wpp">📱 WhatsApp</a>
-    <button class="nav-cart" onclick="openCart()">
-      🛒 <span>Carrinho</span>
-      <span class="nc-badge" id="ncbadge">0</span>
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a class="nav-logo" href="#hero">Santo <span>Espeto</span></a>
+  <ul class="nav-links">
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#cardapio">Cardápio</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+  <div style="display:flex;gap:12px;align-items:center;">
+    <button class="nav-cart-btn" onclick="openCart()">
+      🛒 Carrinho
+      <span class="cart-badge" id="cartBadge">0</span>
     </button>
-    <div class="hbg" id="hbg" onclick="toggleMob()">
-      <span></span><span></span><span></span>
-    </div>
+    <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
   </div>
 </nav>
 
-<!-- mobile menu -->
-<div id="mmenu">
-  <a href="#hero" class="mm-link" onclick="closeMob()">🏠 Início</a>
-  <a href="#cardapio" class="mm-link" onclick="closeMob()">🍽️ Cardápio</a>
-  <a href="#sobre" class="mm-link" onclick="closeMob()">ℹ️ Sobre</a>
-  <a href="#contato" class="mm-link" onclick="closeMob()">📞 Contato</a>
-</div>
-
-<!-- ═══ HERO ═══ -->
+<!-- HERO -->
 <section id="hero">
-  <div class="hero-noise"></div>
-  <div class="hero-grid"></div>
-  <div class="hero-orb1"></div>
-  <div class="hero-orb2"></div>
-  <div class="hero-body">
-    <div class="hero-pill">Monsenhor Tabosa — Ceará</div>
-    <h1 class="hero-h1">
-      O sabor que conquista
-      <span class="accent">Monsenhor Tabosa.</span>
-    </h1>
-    <p class="hero-p">Pizzas, hambúrgueres, petiscos e refeições preparados com qualidade, sabor e aquele toque especial do Santo Espeto.</p>
-    <div class="hero-actions">
-      <button class="btn-gold" onclick="openCart()">🛒 Fazer Pedido</button>
-      <a href="#cardapio" class="btn-outline">📋 Ver Cardápio</a>
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-tag">🔥 Delivery Premium — Monsenhor Tabosa</div>
+    <h1 class="hero-title">Sabor, qualidade e tradição<br>em cada <em>pedido</em> 🍕</h1>
+    <p class="hero-sub">O delivery premium de Monsenhor Tabosa.<br>Pizzas artesanais, carnes na brasa e muito mais.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="scrollTo('#cardapio')">🍽️ Fazer Pedido</button>
+      <a class="btn-outline" href="#cardapio">📖 Ver Cardápio</a>
     </div>
   </div>
   <div class="hero-scroll">
-    <span>scroll</span>
-    <div class="scroll-track"><div class="scroll-fill"></div></div>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+    <span>Explorar</span>
   </div>
 </section>
 
-<!-- ═══ STRIP ═══ -->
-<div class="strip">
-  <div class="strip-item">
-    <div class="si-icon">🛵</div>
-    <div class="si-text"><strong>Delivery & Retirada</strong><span>Pedidos via WhatsApp</span></div>
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stat-item">
+    <div class="stat-number">100+</div>
+    <div class="stat-label">Pratos no cardápio</div>
   </div>
-  <div class="strip-item">
-    <div class="si-icon">🍕</div>
-    <div class="si-text"><strong>Pizzas Artesanais</strong><span>5 tamanhos disponíveis</span></div>
+  <div class="stat-item">
+    <div class="stat-number">5★</div>
+    <div class="stat-label">Avaliação</div>
   </div>
-  <div class="strip-item">
-    <div class="si-icon">🥩</div>
-    <div class="si-text"><strong>Carnes Premium</strong><span>Qualidade selecionada</span></div>
+  <div class="stat-item">
+    <div class="stat-number">30</div>
+    <div class="stat-label">Sabores de pizza</div>
   </div>
-  <div class="strip-item">
-    <div class="si-icon">⭐</div>
-    <div class="si-text"><strong>Melhor da Cidade</strong><span>Referência em sabor</span></div>
+  <div class="stat-item">
+    <div class="stat-number">00h</div>
+    <div class="stat-label">Aberto até meia-noite</div>
   </div>
 </div>
 
-<!-- ═══ CARDÁPIO ═══ -->
-<section id="cardapio" class="sec">
-  <div class="sec-hd reveal">
-    <div class="sec-tag">✦ Nosso Cardápio</div>
-    <h2 class="sec-h2">Escolha o que você <em>deseja</em></h2>
-    <div class="sec-rule"></div>
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="about-imgs">
+    <img class="about-img-main" src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&q=80" alt="Churrasco premium">
+    <img class="about-img-sec" src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80" alt="Pizza artesanal">
+    <div class="about-img-accent">🔥</div>
   </div>
-  <div class="cat-scroll" id="catScroll"></div>
-  <div id="menuWrap"></div>
+  <div class="about-text reveal">
+    <div>
+      <div class="section-tag">Nossa história</div>
+      <h2 class="section-title">Feito com <em>paixão</em> e tradição</h2>
+    </div>
+    <p class="about-p">O Santo Espeto nasceu da paixão por servir refeições saborosas, pizzas artesanais, hambúrgueres especiais e petiscos preparados com ingredientes selecionados.</p>
+    <p class="about-p">Com atendimento acolhedor e pratos feitos com qualidade, o Santo Espeto se tornou referência em Monsenhor Tabosa quando o assunto é sabor, variedade e experiência gastronômica.</p>
+    <div class="about-features">
+      <div class="feature-item"><div class="feature-dot"></div>Ingredientes selecionados</div>
+      <div class="feature-item"><div class="feature-dot"></div>Delivery rápido</div>
+      <div class="feature-item"><div class="feature-dot"></div>Pizzas artesanais</div>
+      <div class="feature-item"><div class="feature-dot"></div>Carnes na brasa</div>
+      <div class="feature-item"><div class="feature-dot"></div>Atendimento acolhedor</div>
+      <div class="feature-item"><div class="feature-dot"></div>Aberto até meia-noite</div>
+    </div>
+    <button class="btn-primary" onclick="scrollTo('#cardapio')">🛒 Pedir agora</button>
+  </div>
 </section>
 
-<!-- ═══ SOBRE ═══ -->
-<section id="sobre" class="sec">
-  <div class="sobre-grid">
-    <div class="reveal">
-      <div class="sec-tag">✦ Nossa História</div>
-      <h2 class="sb-tagline">Tradição e sabor em <em>cada prato</em></h2>
-      <p class="sb-p">O Santo Espeto nasceu com uma missão: trazer sabores únicos e experiências gastronômicas memoráveis para Monsenhor Tabosa e toda a região.</p>
-      <p class="sb-p">Com um cardápio variado que vai de petiscos irresistíveis a pizzas artesanais e hambúrgueres gourmet, somos referência em qualidade e bom atendimento.</p>
-      <div class="sb-stats">
-        <div class="stat"><span class="stat-n">+80</span><div class="stat-l">Itens no Cardápio</div></div>
-        <div class="stat"><span class="stat-n">5★</span><div class="stat-l">Avaliação dos Clientes</div></div>
-        <div class="stat"><span class="stat-n">15+</span><div class="stat-l">Sabores de Pizza</div></div>
-        <div class="stat"><span class="stat-n">🏆</span><div class="stat-l">Melhor da Região</div></div>
+<!-- CARDÁPIO -->
+<div id="cardapio">
+  <div class="header-area reveal">
+    <div class="section-tag">Cardápio completo</div>
+    <h2 class="section-title">O que vai <em>querer hoje?</em></h2>
+    <p class="section-desc">Escolha entre petiscos, hambúrgueres, pizzas artesanais, pratos completos e muito mais.</p>
+  </div>
+
+  <div class="categories-scroll" id="catScroll">
+    <button class="cat-btn active" onclick="filterCat('all', this)">🍽️ Todos</button>
+    <button class="cat-btn" onclick="filterCat('petiscos', this)">🍟 Petiscos</button>
+    <button class="cat-btn" onclick="filterCat('hamburgueres', this)">🍔 Hambúrgueres</button>
+    <button class="cat-btn" onclick="filterCat('beirutes', this)">🥙 Beirutes</button>
+    <button class="cat-btn" onclick="filterCat('combos', this)">🍖 Combos</button>
+    <button class="cat-btn" onclick="filterCat('pratos', this)">🍽️ Pratos</button>
+    <button class="cat-btn" onclick="filterCat('guarnicoes', this)">🍚 Guarnições</button>
+    <button class="cat-btn" onclick="filterCat('sobremesas', this)">🍰 Sobremesas</button>
+    <button class="cat-btn" onclick="filterCat('sucos', this)">🥤 Sucos</button>
+    <button class="cat-btn" onclick="filterCat('pizzas-trad', this)">🍕 Pizzas Tradicionais</button>
+    <button class="cat-btn" onclick="filterCat('pizzas-premium', this)">⭐ Pizzas Premium</button>
+    <button class="cat-btn" onclick="filterCat('pizzas-esp', this)">🌟 Pizzas Especiais</button>
+    <button class="cat-btn" onclick="filterCat('pizzas-doces', this)">🍫 Pizzas Doces</button>
+  </div>
+
+  <!-- PETISCOS -->
+  <div class="menu-section" data-cat="petiscos" id="sec-petiscos">
+    <h3 class="menu-section-title">🍟 Petiscos</h3>
+    <div class="products-grid" id="grid-petiscos"></div>
+  </div>
+
+  <!-- HAMBÚRGUERES -->
+  <div class="menu-section" data-cat="hamburgueres" id="sec-hamburgueres">
+    <h3 class="menu-section-title">🍔 Hambúrgueres</h3>
+    <div class="products-grid" id="grid-hamburgueres"></div>
+  </div>
+
+  <!-- BEIRUTES -->
+  <div class="menu-section" data-cat="beirutes" id="sec-beirutes">
+    <h3 class="menu-section-title">🥙 Beirutes</h3>
+    <p class="menu-section-note">⚠️ Todos os beirutes acompanham batata adicional.</p>
+    <div class="products-grid" id="grid-beirutes"></div>
+  </div>
+
+  <!-- COMBOS -->
+  <div class="menu-section" data-cat="combos" id="sec-combos">
+    <h3 class="menu-section-title">🍖 Combos</h3>
+    <div class="products-grid" id="grid-combos"></div>
+  </div>
+
+  <!-- PRATOS -->
+  <div class="menu-section" data-cat="pratos" id="sec-pratos">
+    <h3 class="menu-section-title">🍽️ Pratos Individuais</h3>
+    <div class="products-grid" id="grid-pratos"></div>
+  </div>
+
+  <!-- GUARNIÇÕES -->
+  <div class="menu-section" data-cat="guarnicoes" id="sec-guarnicoes">
+    <h3 class="menu-section-title">🍚 Guarnições</h3>
+    <div class="products-grid" id="grid-guarnicoes"></div>
+  </div>
+
+  <!-- SOBREMESAS -->
+  <div class="menu-section" data-cat="sobremesas" id="sec-sobremesas">
+    <h3 class="menu-section-title">🍰 Sobremesas</h3>
+    <div class="products-grid" id="grid-sobremesas"></div>
+  </div>
+
+  <!-- SUCOS -->
+  <div class="menu-section" data-cat="sucos" id="sec-sucos">
+    <h3 class="menu-section-title">🥤 Sucos</h3>
+    <div class="products-grid" id="grid-sucos"></div>
+  </div>
+
+  <!-- PIZZAS TRADICIONAIS -->
+  <div class="menu-section" data-cat="pizzas-trad" id="sec-pizzas-trad">
+    <h3 class="menu-section-title">🍕 Pizzas Tradicionais</h3>
+    <p class="menu-section-note">🔥 Escolha tamanho, borda e até 2 sabores.</p>
+    <div class="products-grid" id="grid-pizzas-trad"></div>
+  </div>
+
+  <!-- PIZZAS PREMIUM -->
+  <div class="menu-section" data-cat="pizzas-premium" id="sec-pizzas-premium">
+    <h3 class="menu-section-title">⭐ Pizzas Premium</h3>
+    <p class="menu-section-note">🔥 Escolha tamanho, borda e até 2 sabores.</p>
+    <div class="products-grid" id="grid-pizzas-premium"></div>
+  </div>
+
+  <!-- PIZZAS ESPECIAIS -->
+  <div class="menu-section" data-cat="pizzas-esp" id="sec-pizzas-esp">
+    <h3 class="menu-section-title">🌟 Pizzas Especiais</h3>
+    <p class="menu-section-note">🔥 Escolha tamanho, borda e até 2 sabores.</p>
+    <div class="products-grid" id="grid-pizzas-esp"></div>
+  </div>
+
+  <!-- PIZZAS DOCES -->
+  <div class="menu-section" data-cat="pizzas-doces" id="sec-pizzas-doces">
+    <h3 class="menu-section-title">🍫 Pizzas Doces</h3>
+    <p class="menu-section-note">🔥 Escolha tamanho, borda e até 2 sabores.</p>
+    <div class="products-grid" id="grid-pizzas-doces"></div>
+  </div>
+</div>
+
+<!-- CONTATO -->
+<section id="contato">
+  <div class="contato-inner">
+    <div>
+      <div class="section-tag">Onde estamos</div>
+      <h2 class="section-title">Como nos <em>encontrar</em></h2>
+      <p class="section-desc">Localizado em uma área central e de fácil acesso em Monsenhor Tabosa, o Santo Espeto oferece uma experiência gastronômica moderna e saborosa para toda a cidade.</p>
+      <div class="contact-cards">
+        <a class="contact-card" href="https://wa.me/5588997643053" target="_blank">
+          <div class="contact-card-icon">📱</div>
+          <div>
+            <div class="contact-card-label">WhatsApp</div>
+            <div class="contact-card-value">(88) 99764-3053</div>
+          </div>
+        </a>
+        <a class="contact-card" href="https://instagram.com/santoespeto_mt" target="_blank">
+          <div class="contact-card-icon">📸</div>
+          <div>
+            <div class="contact-card-label">Instagram</div>
+            <div class="contact-card-value">@santoespeto_mt</div>
+          </div>
+        </a>
+        <div class="contact-card">
+          <div class="contact-card-icon">📍</div>
+          <div>
+            <div class="contact-card-label">Localização</div>
+            <div class="contact-card-value">Monsenhor Tabosa — CE</div>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card-icon">🕒</div>
+          <div>
+            <div class="contact-card-label">Horário</div>
+            <div class="contact-card-value">Aberto até 00:00</div>
+          </div>
+        </div>
+      </div>
+      <div class="delivery-badge">
+        🚗 Delivery rápido para Monsenhor Tabosa e regiões próximas
       </div>
     </div>
-    <div class="sb-cards reveal">
-      <div class="sbcard"><div class="sbc-icon">🍕</div><div class="sbc-t"><strong>Pizzas Tradicionais & Especiais</strong><span>Massa artesanal, recheio generoso em 5 tamanhos</span></div></div>
-      <div class="sbcard"><div class="sbc-icon">🥩</div><div class="sbc-t"><strong>Carnes e Petiscos Premium</strong><span>Picanha, camarão, carne de sol e muito mais</span></div></div>
-      <div class="sbcard"><div class="sbc-icon">🍔</div><div class="sbc-t"><strong>Hambúrgueres Artesanais</strong><span>Do básico ao gourmet, do seu jeito</span></div></div>
-      <div class="sbcard"><div class="sbc-icon">🛵</div><div class="sbc-t"><strong>Pedido Fácil pelo WhatsApp</strong><span>Delivery ou retirada com agilidade</span></div></div>
+    <div class="map-area">
+      <div class="map-placeholder-icon">📍</div>
+      <div class="map-placeholder-text">Santo Espeto</div>
+      <div class="map-placeholder-sub" style="text-align:center;padding:0 24px;">Monsenhor Tabosa — Ceará<br>Próximo ao Centro, Praça Principal<br>e Região Comercial da cidade</div>
+      <a class="map-open-btn" href="https://maps.google.com/?q=Monsenhor+Tabosa+Ceará" target="_blank">🗺️ Abrir no Google Maps</a>
     </div>
   </div>
 </section>
 
-<!-- ═══ CONTATO ═══ -->
-<section id="contato" class="sec">
-  <div class="cta-glow"></div>
-  <div class="sec-hd reveal">
-    <div class="sec-tag">✦ Fale Conosco</div>
-    <h2 class="sec-h2">Faça seu <em>pedido agora</em></h2>
-    <div class="sec-rule"></div>
-  </div>
-  <div class="cta-card reveal">
-    <p class="cta-p">Entre em contato pelo WhatsApp ou siga nossas redes sociais para novidades, promoções e muito mais!</p>
-    <a href="https://wa.me/5588997643053" target="_blank" class="cta-wpp">📱 (88) 99764-3053 — Chamar no WhatsApp</a>
-    <div class="social-row">
-      <a href="https://instagram.com/santoespeto_mt" target="_blank" class="soc-btn">📸 @santoespeto_mt</a>
-      <a href="https://wa.me/5588997643053" target="_blank" class="soc-btn">💬 WhatsApp</a>
-    </div>
-    <p style="margin-top:20px;font-size:.8rem;color:var(--muted)">📍 Monsenhor Tabosa — Ceará</p>
-  </div>
-</section>
-
-<!-- ═══ FOOTER ═══ -->
+<!-- FOOTER -->
 <footer>
-  <div class="ft-brand">Santo Espeto</div>
-  <div class="ft-info">
-    Restaurante e Pizzaria — Monsenhor Tabosa, Ceará<br>
-    (88) 99764-3053 &nbsp;|&nbsp; @santoespeto_mt
+  <div class="footer-logo">Santo <span>Espeto</span></div>
+  <p class="footer-desc">Restaurante & Pizzaria Premium<br>Monsenhor Tabosa — Ceará</p>
+  <div class="footer-socials">
+    <a class="social-link" href="https://wa.me/5588997643053" target="_blank">💬</a>
+    <a class="social-link" href="https://instagram.com/santoespeto_mt" target="_blank">📸</a>
   </div>
-  <div class="ft-copy">© 2025 Santo Espeto. Todos os direitos reservados.</div>
+  <p class="footer-copy">© 2026 Santo Espeto Restaurante & Pizzaria. Todos os direitos reservados.</p>
 </footer>
 
-<!-- ═══ FAB ═══ -->
-<button id="fab" onclick="openCart()" title="Carrinho">
-  <div class="fab-ring"></div>
-  🛒
-  <div class="fab-badge2" id="fabbadge">0</div>
-</button>
+<!-- MOBILE BOTTOM BAR -->
+<div class="mobile-bottom-bar">
+  <a class="mobile-nav-item" href="#hero">
+    <span class="mobile-nav-icon">🏠</span>Início
+  </a>
+  <a class="mobile-nav-item" href="#cardapio">
+    <span class="mobile-nav-icon">📖</span>Cardápio
+  </a>
+  <a class="mobile-nav-item" href="#" onclick="openCart();return false">
+    <span class="mobile-nav-icon">🛒</span>Carrinho
+  </a>
+  <a class="mobile-nav-item" href="#contato">
+    <span class="mobile-nav-icon">📍</span>Contato
+  </a>
+  <a class="mobile-nav-item" href="https://wa.me/5588997643053" target="_blank">
+    <span class="mobile-nav-icon">💬</span>WhatsApp
+  </a>
+</div>
 
-<!-- ═══ CART OVERLAY ═══ -->
-<div id="cart-ov" onclick="closeCart()"></div>
+<!-- CART OVERLAY -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
 
-<!-- ═══ CART SIDEBAR ═══ -->
-<div id="cart">
-  <!-- header -->
-  <div class="cart-h">
-    <div class="cart-htitle">🛒 Seu <em>Pedido</em></div>
-    <button class="cart-hclose" onclick="closeCart()">✕</button>
+<!-- CART SIDEBAR -->
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <div class="cart-title">🛒 Meu Pedido</div>
+    <button class="cart-close" onclick="closeCart()">✕</button>
   </div>
-
-  <!-- steps -->
-  <div class="cart-steps" id="cartSteps">
-    <div class="cstep on" id="st1"><div class="cstep-dot" id="sd1">1</div><span>Itens</span></div>
-    <div class="cstep-conn" id="sc1"></div>
-    <div class="cstep" id="st2"><div class="cstep-dot" id="sd2">2</div><span>Entrega</span></div>
-    <div class="cstep-conn" id="sc2"></div>
-    <div class="cstep" id="st3"><div class="cstep-dot" id="sd3">3</div><span>Pagamento</span></div>
-    <div class="cstep-conn" id="sc3"></div>
-    <div class="cstep" id="st4"><div class="cstep-dot" id="sd4">4</div><span>Revisar</span></div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">
+      <div class="cart-empty-icon">🛒</div>
+      <div class="cart-empty-text">Carrinho vazio</div>
+      <div class="cart-empty-sub">Adicione itens do cardápio</div>
+    </div>
   </div>
+  <div class="cart-footer">
+    <div class="cart-total-line"><span>Subtotal</span><span id="cartSubtotal">R$ 0,00</span></div>
+    <div class="cart-total-line main"><span>Total</span><span id="cartTotal">R$ 0,00</span></div>
+    <button class="checkout-btn" id="checkoutBtn" onclick="openCheckout()" disabled>
+      💬 Finalizar Pedido via WhatsApp
+    </button>
+  </div>
+</div>
 
-  <!-- BODY -->
-  <div class="cart-body">
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="productModal">
+  <div class="modal" id="productModalContent">
+    <div class="modal-handle"></div>
+    <div class="modal-header" id="modalHeader"></div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-footer" id="modalFooter"></div>
+  </div>
+</div>
 
-    <!-- PANEL 1: ITEMS -->
-    <div class="cart-panel on" id="panel1">
-      <div id="cartItems"></div>
-      <div class="cart-subtotal" id="cartSub" style="display:none">
-        <span>Subtotal</span>
-        <strong id="cartSubVal">R$ 0,00</strong>
-      </div>
+<!-- CHECKOUT MODAL -->
+<div class="modal-overlay checkout-modal" id="checkoutModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-header" style="flex-direction:column;gap:4px;">
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;">Finalizar Pedido</h2>
+      <p style="color:var(--white-dim);font-size:0.85rem;">Preencha seus dados para enviar via WhatsApp</p>
     </div>
-
-    <!-- PANEL 2: DELIVERY -->
-    <div class="cart-panel" id="panel2">
-      <div class="cart-sec">
-        <div class="cart-sec-title">Tipo de entrega</div>
-        <div class="deliver-opts">
-          <div class="dopt on" id="dopt-delivery" onclick="selectDelivery('delivery')">
-            <span class="dopt-icon">🛵</span>
-            <div class="dopt-label">Delivery</div>
-          </div>
-          <div class="dopt" id="dopt-pickup" onclick="selectDelivery('pickup')">
-            <span class="dopt-icon">🏪</span>
-            <div class="dopt-label">Retirar no Local</div>
-          </div>
-        </div>
-
-        <div id="deliveryFields">
-          <div class="cart-sec-title" style="margin-bottom:12px">Dados de entrega</div>
-          <div class="field-group">
-            <div class="fgroup">
-              <div class="field-label">Seu nome *</div>
-              <input class="field" id="fName" type="text" placeholder="Nome completo">
-            </div>
-            <div class="fgroup">
-              <div class="field-label">Endereço *</div>
-              <input class="field" id="fAddr" type="text" placeholder="Rua, número">
-            </div>
-            <div class="fgroup">
-              <div class="field-label">Bairro</div>
-              <input class="field" id="fBairro" type="text" placeholder="Bairro">
-            </div>
-            <div class="fgroup">
-              <div class="field-label">Ponto de referência</div>
-              <input class="field" id="fRef" type="text" placeholder="Ex: próximo à escola">
-            </div>
-          </div>
-        </div>
-
-        <div id="pickupFields" style="display:none">
-          <div class="cart-sec-title" style="margin-bottom:12px">Dados para retirada</div>
-          <div class="field-group">
-            <div class="fgroup">
-              <div class="field-label">Seu nome *</div>
-              <input class="field" id="fNameP" type="text" placeholder="Nome completo">
-            </div>
-          </div>
-          <div style="margin-top:14px;padding:14px;background:var(--gold-dim);border:1px solid var(--border-gold);border-radius:var(--r)">
-            <p style="font-size:.83rem;color:var(--muted);line-height:1.6">📍 Retire seu pedido diretamente no <strong style="color:var(--white)">Santo Espeto</strong> — Monsenhor Tabosa, CE. Em breve entraremos em contato pelo WhatsApp!</p>
-          </div>
-        </div>
-
-        <div class="fgroup" style="margin-top:16px">
-          <div class="field-label">Observações gerais</div>
-          <textarea class="field" id="fObs" placeholder="Alguma observação especial?"></textarea>
-        </div>
+    <div class="modal-body" style="padding-bottom:24px;">
+      <div class="form-group">
+        <label class="form-label">Seu nome</label>
+        <input class="form-input" id="clientName" type="text" placeholder="Como podemos te chamar?">
       </div>
-    </div>
-
-    <!-- PANEL 3: PAYMENT -->
-    <div class="cart-panel" id="panel3">
-      <div class="cart-sec">
-        <div class="cart-sec-title">Forma de pagamento</div>
-        <div class="pay-opts">
-          <div class="popt" id="popt-pix" onclick="selectPay('pix')">
-            <span class="popt-icon">⚡</span>
-            <div class="popt-label">PIX</div>
-            <div class="popt-sub">Pagamento instantâneo</div>
+      <div class="form-group">
+        <label class="form-label">Telefone</label>
+        <input class="form-input" id="clientPhone" type="tel" placeholder="(88) 9 0000-0000">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Endereço de entrega</label>
+        <textarea class="form-input obs-input" id="clientAddress" rows="2" placeholder="Rua, número, bairro, referência..."></textarea>
+      </div>
+      <div>
+        <div class="form-label" style="margin-bottom:12px;">Forma de pagamento</div>
+        <div class="payment-options">
+          <div class="pay-option" onclick="selectPayment('pix', this)">
+            <span class="pay-option-icon">💠</span>Pix
           </div>
-          <div class="popt" id="popt-card" onclick="selectPay('card')">
-            <span class="popt-icon">💳</span>
-            <div class="popt-label">Cartão</div>
-            <div class="popt-sub">Crédito ou débito</div>
+          <div class="pay-option" onclick="selectPayment('dinheiro', this)">
+            <span class="pay-option-icon">💵</span>Dinheiro
           </div>
-          <div class="popt" id="popt-cash" onclick="selectPay('cash')">
-            <span class="popt-icon">💵</span>
-            <div class="popt-label">Dinheiro</div>
-            <div class="popt-sub">Pagar na entrega</div>
+          <div class="pay-option" onclick="selectPayment('credito', this)">
+            <span class="pay-option-icon">💳</span>Crédito
           </div>
-          <div class="popt" id="popt-vr" onclick="selectPay('vr')">
-            <span class="popt-icon">🎫</span>
-            <div class="popt-label">Vale-Refeição</div>
-            <div class="popt-sub">VR / VA / Ticket</div>
-          </div>
-        </div>
-
-        <!-- cartão sub -->
-        <div id="cardSubOpts" style="display:none">
-          <div class="cart-sec-title" style="margin-bottom:8px">Tipo de cartão</div>
-          <div class="card-sub-opts">
-            <div class="csopt" id="csopt-cred" onclick="selectCardType('credito')">💳 Crédito</div>
-            <div class="csopt" id="csopt-deb" onclick="selectCardType('debito')">💳 Débito</div>
-          </div>
-        </div>
-
-        <!-- troco -->
-        <div id="trocoBox" style="display:none">
-          <div class="troco-box">
-            <div class="fgroup">
-              <div class="field-label" style="color:var(--gold)">💵 Troco para quanto?</div>
-              <input class="field" id="fTroco" type="text" placeholder="Ex: R$ 50,00" style="margin-top:6px">
-              <span style="font-size:.77rem;color:var(--muted);margin-top:6px;display:block">Informe o valor que você vai pagar para prepararmos o troco.</span>
-            </div>
+          <div class="pay-option" onclick="selectPayment('debito', this)">
+            <span class="pay-option-icon">💳</span>Débito
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- PANEL 4: REVIEW -->
-    <div class="cart-panel" id="panel4">
-      <div class="review-card" id="reviewCard"></div>
-      <div style="height:12px"></div>
-    </div>
-
-  </div><!-- /cart-body -->
-
-  <!-- FOOTER -->
-  <div class="cart-f">
-    <div class="cart-total-row">
-      <span class="ct-label">Total do pedido</span>
-      <span class="ct-value" id="ctval">R$ 0,00</span>
-    </div>
-    <div class="cart-btn-row" id="cartBtnRow">
-      <button class="cbtn-next" id="mainBtn" onclick="nextStep()" disabled>
-        Ver Itens
+      <div class="troco-area" id="trocoArea">
+        <div class="form-group">
+          <label class="form-label">Troco para quanto?</label>
+          <input class="form-input" id="trocoVal" type="number" placeholder="Ex: 50" min="0">
+        </div>
+      </div>
+      <button class="send-whatsapp-btn" onclick="sendToWhatsApp()">
+        💬 Enviar pedido pelo WhatsApp
       </button>
+      <button onclick="document.getElementById('checkoutModal').classList.remove('open')" style="width:100%;background:none;border:none;color:var(--white-dim);padding:12px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.88rem;margin-top:4px;">Voltar ao carrinho</button>
     </div>
   </div>
 </div>
 
-<!-- ═══ TOASTS ═══ -->
-<div id="toasts"></div>
-
 <script>
-/* ═══════════════════════════════════════════════════════
-   DATA
-═══════════════════════════════════════════════════════ */
-const MENU = {
-  "Petiscos":[
-    {n:"Batata Frita",p:16,e:"🍟",d:"Batata frita crocante e dourada"},
-    {n:"Santa Batata",p:25,e:"🍟",d:"Batata especial com molhos da casa"},
-    {n:"Batata Especial",p:25,e:"🍟",d:"Batata com ingredientes especiais"},
-    {n:"Macaxeira",p:16,e:"🌾",d:"Macaxeira frita ou cozida"},
-    {n:"Carne de Sol c/ Fritas ou Macaxeira",p:32,e:"🥩",d:"Carne de sol grelhada com acompanhamento"},
-    {n:"Filé Trinchado ao Molho c/ Fritas",p:35,e:"🥩",d:"Filé mignon trinchado ao molho especial"},
-    {n:"Frango à Passarinho c/ Fritas",p:28,e:"🍗",d:"Pedaços de frango crocantes e temperados"},
-    {n:"Gurjão de Peixe",p:30,e:"🐟",d:"Goujons de peixe empanados e fritos"},
-    {n:"Gurjão de Frango",p:30,e:"🍗",d:"Goujons de frango empanados"},
-    {n:"Feijão Verde",p:26,e:"🫘",d:"Feijão verde temperado na manteiga"},
-    {n:"Feijão Verde c/ Carne de Sol",p:28,e:"🫘",d:"Feijão verde com carne de sol"},
-    {n:"Feijão Verde Especial",p:36,e:"🫘",d:"Feijão verde com ingredientes especiais"},
-    {n:"Calabresa c/ Fritas",p:27,e:"🌭",d:"Calabresa acebolada com batata frita"},
-    {n:"Torresmo",p:0,e:"🥓",d:"Torresmo crocante — consulte o preço"},
-    {n:"Queijo à Milanesa",p:27,e:"🧀",d:"Queijo empanado e frito"},
-    {n:"Queijo c/ Mel",p:12,e:"🧀",d:"Queijo coalho grelhado com mel"},
-    {n:"Santo Petisco",p:60,e:"🍽️",d:"Petisco completo da casa para compartilhar"},
-    {n:"Azeitona",p:10,e:"🫒",d:"Azeitonas selecionadas"},
-    {n:"Camarão na Taça",p:55,e:"🦐",d:"Camarão temperado servido na taça"},
-    {n:"Camarão Alho e Óleo",p:38,e:"🦐",d:"Camarão ao alho e óleo"},
-    {n:"Camarão Descascado c/ Fritas",p:60,e:"🦐",d:"Camarão descascado ao alho e óleo com fritas"},
-    {n:"Carneiro",p:32,e:"🥩",d:"Carneiro grelhado temperado"},
-    {n:"Picanha",p:45,e:"🥩",d:"Picanha grelhada no ponto certo"},
-    {n:"Picanha c/ Fritas ou Macaxeira",p:48,e:"🥩",d:"Picanha com batata frita ou macaxeira"},
-    {n:"Contra Filé",p:40,e:"🥩",d:"Contra filé grelhado"},
-    {n:"Contra Filé c/ Fritas ou Macaxeira",p:43,e:"🥩",d:"Contra filé com acompanhamento"},
-    {n:"Picanha c/ Queijo Coalho Gratinado",p:52,e:"🥩",d:"Picanha com queijo coalho derretido"},
-    {n:"Tábua de Frios",p:45,e:"🧀",d:"Seleção de frios e embutidos"}
-  ],
-  "Hambúrgueres":[
-    {n:"Santo Básico",p:12,e:"🍔",d:"Pão, hambúrguer e molho especial"},
-    {n:"Santo Egg",p:14,e:"🍔",d:"Hambúrguer com ovo estrelado"},
-    {n:"Santo Burguer Salada",p:14,e:"🍔",d:"Com alface, tomate e molho"},
-    {n:"Santo Bacon",p:16,e:"🍔",d:"Com bacon crocante e molho especial"},
-    {n:"Santo Especial",p:16,e:"🍔",d:"Combinação especial da casa"},
-    {n:"Santo Extremo",p:19,e:"🍔",d:"Hambúrguer duplo com extras"},
-    {n:"Santo Burguer Cheese",p:19,e:"🍔",d:"Com queijo cheddar derretido"},
-    {n:"Monte seu Burger",p:25,e:"🍔",d:"Personalize do seu jeito!"}
-  ],
-  "Beirutes":[
-    {n:"Beirute de Frango",p:20,e:"🥪",d:"Beirute recheado com frango"},
-    {n:"Beirute Carne de Sol",p:22,e:"🥪",d:"Beirute com carne de sol"},
-    {n:"Beirute de Filé",p:25,e:"🥪",d:"Beirute com filé mignon"},
-    {n:"Beirute de Pernil",p:24,e:"🥪",d:"Beirute com pernil suculento"}
-  ],
-  "Combos":[
-    {n:"Combo 01",p:66,e:"🎁",d:"Combo especial da casa — consulte composição"},
-    {n:"Combo 02",p:72,e:"🎁",d:"Combo especial da casa — consulte composição"},
-    {n:"Combo 03",p:62,e:"🎁",d:"Combo especial da casa — consulte composição"},
-    {n:"Combo 04",p:68,e:"🎁",d:"Combo especial da casa — consulte composição"},
-    {n:"Combo 05",p:50,e:"🎁",d:"Combo especial da casa — consulte composição"},
-    {n:"Combo 06",p:55,e:"🎁",d:"Combo especial da casa — consulte composição"},
-    {n:"Combo 07",p:50,e:"🎁",d:"Combo especial da casa — consulte composição"},
-    {n:"Combo 08",p:55,e:"🎁",d:"Combo especial da casa — consulte composição"}
-  ],
-  "Pratos Individuais":[
-    {n:"Picanha c/ Arroz Branco",p:25,e:"🍽️",d:"Picanha grelhada com arroz branco"},
-    {n:"Picanha c/ Baião ou Piamontese",p:27,e:"🍽️",d:"Picanha com baião de dois"},
-    {n:"Contra Filé c/ Arroz Branco",p:23,e:"🍽️",d:"Contra filé grelhado com arroz"},
-    {n:"Contra Filé c/ Baião ou Piamontese",p:25,e:"🍽️",d:"Contra filé com baião especial"},
-    {n:"Calabresa c/ Arroz Branco",p:20,e:"🍽️",d:"Calabresa acebolada com arroz"},
-    {n:"Calabresa c/ Baião ou Piamontese",p:23,e:"🍽️",d:"Calabresa com acompanhamento especial"},
-    {n:"Filé ao Molho c/ Arroz Branco",p:22,e:"🍽️",d:"Filé trinchado ao molho com arroz"},
-    {n:"Filé ao Molho c/ Baião ou Piamontese",p:25,e:"🍽️",d:"Filé ao molho com baião"},
-    {n:"Carne de Sol c/ Arroz Branco",p:22,e:"🍽️",d:"Carne de sol com arroz branco"},
-    {n:"Carne de Sol c/ Baião ou Piamontese",p:25,e:"🍽️",d:"Carne de sol com baião de dois"},
-    {n:"Carneiro c/ Arroz Branco",p:22,e:"🍽️",d:"Carneiro grelhado com arroz"},
-    {n:"Carneiro c/ Baião ou Piamontese",p:25,e:"🍽️",d:"Carneiro com baião especial"}
-  ],
-  "Guarnições":[
-    {n:"Arroz Branco",p:12,e:"🍚",d:"Arroz soltinho no ponto certo"},
-    {n:"Arroz à Grega",p:16,e:"🍚",d:"Arroz colorido com legumes"},
-    {n:"Arroz à Piamontese",p:16,e:"🍚",d:"Arroz cremoso especial"},
-    {n:"Baião de Dois",p:16,e:"🫘",d:"Tradicional baião nordestino"},
-    {n:"Risoto de Camarão",p:50,e:"🦐",d:"Risoto cremoso com camarões"}
-  ],
-  "Sobremesas":[
-    {n:"Espetinho Doce",p:15,e:"🍡",d:"Espetinho com frutas e chocolate"},
-    {n:"Pudim",p:7,e:"🍮",d:"Pudim caseiro cremoso"},
-    {n:"Mousse",p:0,e:"🍫",d:"Preço sob consulta — pergunte o sabor"}
-  ],
-  "Sucos":[
-    {n:"Laranja (Copo)",p:7,e:"🍊",d:"Suco natural de laranja"},
-    {n:"Limão (Copo)",p:7,e:"🍋",d:"Suco natural de limão"},
-    {n:"Abacaxi (Copo)",p:7,e:"🍍",d:"Suco natural de abacaxi"},
-    {n:"Acerola (Copo)",p:7,e:"🍒",d:"Suco natural de acerola"},
-    {n:"Maracujá (Copo)",p:8,e:"💛",d:"Suco natural de maracujá"},
-    {n:"Morango (Copo)",p:8,e:"🍓",d:"Suco natural de morango"},
-    {n:"Graviola (Copo)",p:7,e:"🌿",d:"Suco natural de graviola"},
-    {n:"Água de Coco (Copo)",p:7,e:"🥥",d:"Água de coco natural"},
-    {n:"Laranja (Jarra)",p:15,e:"🍊",d:"Jarra de suco de laranja"},
-    {n:"Limão (Jarra)",p:15,e:"🍋",d:"Jarra de suco de limão"},
-    {n:"Abacaxi (Jarra)",p:15,e:"🍍",d:"Jarra de suco de abacaxi"},
-    {n:"Acerola (Jarra)",p:15,e:"🍒",d:"Jarra de suco de acerola"},
-    {n:"Maracujá (Jarra)",p:17,e:"💛",d:"Jarra de suco de maracujá"},
-    {n:"Morango (Jarra)",p:17,e:"🍓",d:"Jarra de suco de morango"},
-    {n:"Graviola (Jarra)",p:15,e:"🌿",d:"Jarra de suco de graviola"},
-    {n:"Água de Coco (Jarra)",p:15,e:"🥥",d:"Jarra de água de coco"}
-  ],
-  "Pizzas Tradicionais":[
-    {n:"Mussarela",p:0,e:"🍕",d:"Molho, mussarela e orégano",pizza:true,
-     sz:{"Broto":22,"Pequena":32,"Média":42,"Grande":55,"Gigante":68}},
-    {n:"Marguerita",p:0,e:"🍕",d:"Molho, mussarela, tomate e manjericão",pizza:true,
-     sz:{"Broto":24,"Pequena":34,"Média":44,"Grande":57,"Gigante":70}},
-    {n:"Calabresa",p:0,e:"🍕",d:"Calabresa acebolada com mussarela",pizza:true,
-     sz:{"Broto":24,"Pequena":34,"Média":44,"Grande":57,"Gigante":70}},
-    {n:"Bacon",p:0,e:"🍕",d:"Bacon crocante com mussarela",pizza:true,
-     sz:{"Broto":25,"Pequena":35,"Média":45,"Grande":58,"Gigante":72}},
-    {n:"Portuguesa",p:0,e:"🍕",d:"Presunto, ovos, cebola e azeitona",pizza:true,
-     sz:{"Broto":26,"Pequena":36,"Média":46,"Grande":60,"Gigante":74}},
-    {n:"Frango c/ Catupiry",p:0,e:"🍕",d:"Frango desfiado com catupiry",pizza:true,
-     sz:{"Broto":26,"Pequena":36,"Média":46,"Grande":60,"Gigante":74}},
-    {n:"Mista",p:0,e:"🍕",d:"Misto de ingredientes selecionados",pizza:true,
-     sz:{"Broto":25,"Pequena":35,"Média":45,"Grande":58,"Gigante":72}},
-    {n:"Caipira",p:0,e:"🍕",d:"Milho, frango e catupiry",pizza:true,
-     sz:{"Broto":26,"Pequena":36,"Média":46,"Grande":60,"Gigante":74}},
-    {n:"Italiana",p:0,e:"🍕",d:"Presunto, champignon e azeitona",pizza:true,
-     sz:{"Broto":27,"Pequena":37,"Média":47,"Grande":62,"Gigante":76}},
-    {n:"Atum",p:0,e:"🍕",d:"Atum com cebola e azeitona",pizza:true,
-     sz:{"Broto":26,"Pequena":36,"Média":46,"Grande":60,"Gigante":74}},
-    {n:"Carneiro",p:0,e:"🍕",d:"Carneiro temperado com especiarias",pizza:true,
-     sz:{"Broto":30,"Pequena":42,"Média":54,"Grande":68,"Gigante":85}},
-    {n:"Santa Pizza",p:0,e:"🍕",d:"Receita exclusiva da casa",pizza:true,
-     sz:{"Broto":30,"Pequena":42,"Média":54,"Grande":68,"Gigante":85}},
-    {n:"Carne de Sol",p:0,e:"🍕",d:"Carne de sol com queijo coalho",pizza:true,
-     sz:{"Broto":30,"Pequena":42,"Média":54,"Grande":68,"Gigante":85}},
-    {n:"Carne de Sol c/ Catupiry",p:0,e:"🍕",d:"Carne de sol com catupiry cremoso",pizza:true,
-     sz:{"Broto":32,"Pequena":44,"Média":56,"Grande":70,"Gigante":88}},
-    {n:"Carne de Sol c/ Cream Cheese",p:0,e:"🍕",d:"Carne de sol com cream cheese",pizza:true,
-     sz:{"Broto":32,"Pequena":44,"Média":56,"Grande":70,"Gigante":88}}
-  ],
-  "Pizzas Especiais":[
-    {n:"Salmão",p:0,e:"🍕",d:"Salmão com cream cheese",pizza:true,
-     sz:{"Broto":35,"Pequena":48,"Média":62,"Grande":78,"Gigante":95}},
-    {n:"Nacho",p:0,e:"🍕",d:"Com nachos, guacamole e queijo",pizza:true,
-     sz:{"Broto":32,"Pequena":44,"Média":56,"Grande":70,"Gigante":88}},
-    {n:"Picanha ao Alho",p:0,e:"🍕",d:"Picanha fatiada com alho dourado",pizza:true,
-     sz:{"Broto":36,"Pequena":50,"Média":65,"Grande":82,"Gigante":100}},
-    {n:"Filé ao Molho",p:0,e:"🍕",d:"Filé mignon ao molho especial",pizza:true,
-     sz:{"Broto":34,"Pequena":46,"Média":60,"Grande":75,"Gigante":92}},
-    {n:"Camarão",p:0,e:"🍕",d:"Camarões temperados",pizza:true,
-     sz:{"Broto":36,"Pequena":50,"Média":65,"Grande":82,"Gigante":100}},
-    {n:"Camarão c/ Catupiry ou Cheddar",p:0,e:"🍕",d:"Camarão com catupiry ou cheddar",pizza:true,
-     sz:{"Broto":38,"Pequena":52,"Média":68,"Grande":85,"Gigante":105}},
-    {n:"Camarão c/ Cream Cheese",p:0,e:"🍕",d:"Camarão com cream cheese",pizza:true,
-     sz:{"Broto":38,"Pequena":52,"Média":68,"Grande":85,"Gigante":105}},
-    {n:"Pernil c/ Barbecue",p:0,e:"🍕",d:"Pernil desfiado com molho barbecue",pizza:true,
-     sz:{"Broto":32,"Pequena":44,"Média":56,"Grande":70,"Gigante":88}},
-    {n:"Monte sua Pizza",p:0,e:"🍕",d:"Escolha seus ingredientes favoritos",pizza:true,
-     sz:{"Broto":30,"Pequena":42,"Média":54,"Grande":68,"Gigante":85}}
-  ],
-  "Pizzas Doces":[
-    {n:"KitKat",p:0,e:"🍕",d:"Chocolate com KitKat",pizza:true,
-     sz:{"Broto":28,"Pequena":38,"Média":50,"Grande":64,"Gigante":78}},
-    {n:"Sensação",p:0,e:"🍕",d:"Morango com chocolate e cream cheese",pizza:true,
-     sz:{"Broto":28,"Pequena":38,"Média":50,"Grande":64,"Gigante":78}},
-    {n:"Prestígio",p:0,e:"🍕",d:"Coco com chocolate ao leite",pizza:true,
-     sz:{"Broto":28,"Pequena":38,"Média":50,"Grande":64,"Gigante":78}},
-    {n:"Brigadeiro",p:0,e:"🍕",d:"Brigadeiro cremoso com granulado",pizza:true,
-     sz:{"Broto":26,"Pequena":36,"Média":48,"Grande":62,"Gigante":76}},
-    {n:"Banana c/ Canela",p:0,e:"🍕",d:"Banana, canela e mel",pizza:true,
-     sz:{"Broto":26,"Pequena":36,"Média":48,"Grande":62,"Gigante":76}},
-    {n:"Chocolate Branco c/ M&M's",p:0,e:"🍕",d:"Chocolate branco com M&M's coloridos",pizza:true,
-     sz:{"Broto":30,"Pequena":40,"Média":52,"Grande":66,"Gigante":80}},
-    {n:"Oreo",p:0,e:"🍕",d:"Cream cheese com biscoito Oreo",pizza:true,
-     sz:{"Broto":30,"Pequena":40,"Média":52,"Grande":66,"Gigante":80}}
-  ]
+// ═══════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════
+
+const PIZZA_SIZES = {
+  B: 'Broto (B)', P: 'Pequena (P)', M: 'Média (M)', G: 'Grande (G)', GG: 'GG'
 };
 
-const PIZZA_SIZES = ["Broto","Pequena","Média","Grande","Gigante"];
+const BORDERS = [
+  { name: 'Sem borda', price: 0 },
+  { name: 'Borda Tradicional c/ Catupiry ou Cheddar', price: 7 },
+  { name: 'Borda Tradicional c/ Cream Cheese', price: 10 },
+  { name: 'Borda Tradicional de Mussarela', price: 9 },
+  { name: 'Borda Tradicional de Chocolate', price: 10 },
+  { name: 'Borda Vulcão c/ Cream Cheese', price: 10 },
+  { name: 'Borda Vulcão c/ Catupiry ou Cheddar', price: 8 },
+  { name: 'Borda Pãozinho 01', price: 11 },
+  { name: 'Borda Pãozinho 02', price: 13 },
+];
 
-/* ═══════════════════════════════════════════════════════
-   STATE
-═══════════════════════════════════════════════════════ */
-let cart = [];
-let selSizes = {};
-let step = 1;
-let deliveryMode = 'delivery';
-let payMode = null;
-let cardType = null;
+const FOOD_IMGS = {
+  default: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=80',
+  batata: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=400&q=80',
+  burger: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80',
+  pizza: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80',
+  pizza2: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&q=80',
+  pizza3: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&q=80',
+  churrasco: 'https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=400&q=80',
+  carneSol: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80',
+  frango: 'https://images.unsplash.com/photo-1598103442097-8b74394b95c7?w=400&q=80',
+  peixe: 'https://images.unsplash.com/photo-1559847844-5315695dadae?w=400&q=80',
+  camarao: 'https://images.unsplash.com/photo-1625943553852-781c6dd46faa?w=400&q=80',
+  feijao: 'https://images.unsplash.com/photo-1534939163-920a4de6b7ec?w=400&q=80',
+  queijo: 'https://images.unsplash.com/photo-1572449043416-55f4685c9bb7?w=400&q=80',
+  picanha: 'https://images.unsplash.com/photo-1544025162-d76538425058?w=400&q=80',
+  combo: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&q=80',
+  arroz: 'https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=400&q=80',
+  sobremesa: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=400&q=80',
+  pudim: 'https://images.unsplash.com/photo-1567171466295-4afa63d45416?w=400&q=80',
+  suco: 'https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=400&q=80',
+  pizzaDoce: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=400&q=80',
+  calabresa: 'https://images.unsplash.com/photo-1601924921557-45e6dea0a157?w=400&q=80',
+  tábua: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400&q=80',
+  beirute: 'https://images.unsplash.com/photo-1485451456034-3f9391c6f769?w=400&q=80',
+  risoto: 'https://images.unsplash.com/photo-1476124369491-e7addf5db371?w=400&q=80',
+  macaxeira: 'https://images.unsplash.com/photo-1606791405792-1004f1718d0c?w=400&q=80',
+  nacho: 'https://images.unsplash.com/photo-1513456852971-30c0b8199d4d?w=400&q=80',
+  salmao: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&q=80',
+};
 
-/* ═══════════════════════════════════════════════════════
-   BUILD MENU
-═══════════════════════════════════════════════════════ */
-function buildMenu() {
-  const scroll = document.getElementById('catScroll');
-  const wrap = document.getElementById('menuWrap');
-  let first = true;
-  for (const cat in MENU) {
-    const pill = document.createElement('button');
-    pill.className = 'cat-pill' + (first ? ' on' : '');
-    pill.textContent = cat;
-    pill.dataset.cat = cat;
-    pill.onclick = () => switchCat(cat);
-    scroll.appendChild(pill);
+const menuData = {
+  petiscos: [
+    { id:'p1', name:'Batata Frita', price:16, desc:'Batata frita sequinha e crocante.', img: FOOD_IMGS.batata },
+    { id:'p2', name:'Santa Batata', price:25, desc:'Batata frita com bacon e cheddar.', img: FOOD_IMGS.batata },
+    { id:'p3', name:'Batata Especial', price:25, desc:'Batata frita com catupiry e carne de sol desfiada.', img: FOOD_IMGS.batata },
+    { id:'p4', name:'Macaxeira', price:16, desc:'Macaxeira cozida na medida certa.', img: FOOD_IMGS.macaxeira },
+    { id:'p5', name:'Carne de Sol c/ Fritas ou Macaxeira', price:32, desc:'Carne de sol acebolada com fritas ou macaxeira.', img: FOOD_IMGS.carneSol },
+    { id:'p6', name:'Filé Trinchado ao Molho c/ Fritas', price:35, desc:'Filé ao molho especial acompanhado de fritas.', img: FOOD_IMGS.combo },
+    { id:'p7', name:'Frango a Passarinho c/ Fritas', price:28, desc:'Frango temperado e frito com fritas.', img: FOOD_IMGS.frango },
+    { id:'p8', name:'Gurjão de Peixe', price:30, desc:'Peixe empanado crocante com molho.', img: FOOD_IMGS.peixe },
+    { id:'p9', name:'Gurjão de Frango', price:30, desc:'Frango empanado crocante com molho.', img: FOOD_IMGS.frango },
+    { id:'p10', name:'Feijão Verde', price:26, desc:'Feijão verde temperado especial.', img: FOOD_IMGS.feijao },
+    { id:'p11', name:'Feijão Verde c/ Carne de Sol', price:28, desc:'Feijão verde com carne de sol desfiada.', img: FOOD_IMGS.feijao },
+    { id:'p12', name:'Feijão Verde Especial', price:36, desc:'Feijão verde com ingredientes especiais da casa.', img: FOOD_IMGS.feijao },
+    { id:'p13', name:'Calabresa c/ Fritas', price:27, desc:'Calabresa acebolada com fritas crocantes.', img: FOOD_IMGS.calabresa },
+    { id:'p15', name:'Queijo à Milanesa', price:27, desc:'Queijo empanado e frito na perfeição.', img: FOOD_IMGS.queijo },
+    { id:'p16', name:'Queijo c/ Mel', price:12, desc:'Queijo coalho grelhado com mel.', img: FOOD_IMGS.queijo },
+    { id:'p17', name:'Santo Petisco', price:60, desc:'Petisco completo da casa para compartilhar.', img: FOOD_IMGS.tábua },
+    { id:'p18', name:'Azeitona', price:10, desc:'Azeitona temperada selecionada.', img: FOOD_IMGS.default },
+    { id:'p19', name:'Camarão na Taça', price:55, desc:'Camarão especial servido na taça.', img: FOOD_IMGS.camarao },
+    { id:'p20', name:'Camarão Alho e Óleo', price:38, desc:'Camarão ao alho e óleo com tempero especial.', img: FOOD_IMGS.camarao },
+    { id:'p21', name:'Camarão Alho e Óleo Descascado c/ Fritas', price:60, desc:'Camarão descascado ao alho e óleo com fritas.', img: FOOD_IMGS.camarao },
+    { id:'p22', name:'Carneiro', price:32, desc:'Carneiro com tempero especial da casa.', img: FOOD_IMGS.churrasco },
+    { id:'p23', name:'Picanha', price:45, desc:'Picanha selecionada grelhada na brasa.', img: FOOD_IMGS.picanha },
+    { id:'p24', name:'Picanha c/ Fritas ou Macaxeira', price:48, desc:'Picanha com fritas ou macaxeira.', img: FOOD_IMGS.picanha },
+    { id:'p25', name:'Contra Filé', price:40, desc:'Contra filé macio grelhado na brasa.', img: FOOD_IMGS.churrasco },
+    { id:'p26', name:'Contra Filé c/ Fritas ou Macaxeira', price:43, desc:'Contra filé com fritas ou macaxeira.', img: FOOD_IMGS.churrasco },
+    { id:'p27', name:'Picanha c/ Queijo Coalho Gratinado', price:52, desc:'Picanha com queijo coalho derretido por cima.', img: FOOD_IMGS.picanha },
+    { id:'p28', name:'Tábua de Frios', price:45, desc:'Seleção de frios e petiscos para compartilhar.', img: FOOD_IMGS.tábua },
+  ],
+  hamburgueres: [
+    { id:'h68', name:'Santo Básico', price:12, desc:'Pão, hambúrguer e molho especial.', img: FOOD_IMGS.burger },
+    { id:'h69', name:'Santo Egg', price:14, desc:'Pão, hambúrguer, ovo e molho especial.', img: FOOD_IMGS.burger },
+    { id:'h70', name:'Santo Burguer Salada', price:14, desc:'Pão, hambúrguer, salada fresca e molho.', img: FOOD_IMGS.burger },
+    { id:'h71', name:'Santo Bacon', price:16, desc:'Pão, hambúrguer, bacon crocante e molho.', img: FOOD_IMGS.burger },
+    { id:'h72', name:'Santo Especial', price:16, desc:'Pão, hambúrguer duplo e ingredientes especiais.', img: FOOD_IMGS.burger },
+    { id:'h73', name:'Santo Extremo', price:19, desc:'Pão, hambúrguer duplo, bacon, queijo e molho especial.', img: FOOD_IMGS.burger },
+    { id:'h74', name:'Santo Burguer Cheese', price:19, desc:'Pão, hambúrguer com queijo derretido premium.', img: FOOD_IMGS.burger },
+    { id:'h75', name:'Monte seu Burguer', price:25, desc:'Monte do seu jeito com ingredientes à sua escolha.', img: FOOD_IMGS.burger },
+  ],
+  beirutes: [
+    { id:'b76', name:'Beirute de Frango', price:20, desc:'Pão sírio recheado com frango temperado. Acompanha batata.', img: FOOD_IMGS.beirute },
+    { id:'b77', name:'Beirute de Carne de Sol', price:22, desc:'Pão sírio com carne de sol desfiada. Acompanha batata.', img: FOOD_IMGS.beirute },
+    { id:'b78', name:'Beirute de Filé', price:25, desc:'Pão sírio com filé macio e suculento. Acompanha batata.', img: FOOD_IMGS.beirute },
+    { id:'b79', name:'Beirute de Pernil', price:24, desc:'Pão sírio com pernil desfiado. Acompanha batata.', img: FOOD_IMGS.beirute },
+  ],
+  combos: [
+    { id:'c80', name:'Combo 01', price:66, desc:'400g de picanha + arroz branco + farofa + vinagrete.', img: FOOD_IMGS.picanha },
+    { id:'c81', name:'Combo 02', price:72, desc:'400g de picanha + arroz à piamontese OU à grega OU baião + farofa + vinagrete.', img: FOOD_IMGS.picanha },
+    { id:'c82', name:'Combo 03', price:62, desc:'400g de contra filé + arroz branco + farofa + vinagrete.', img: FOOD_IMGS.churrasco },
+    { id:'c83', name:'Combo 04', price:68, desc:'400g de contra filé + arroz à piamontese OU à grega OU baião + farofa + vinagrete.', img: FOOD_IMGS.churrasco },
+    { id:'c84', name:'Combo 05', price:50, desc:'400g de carneiro + arroz branco + farofa + vinagrete.', img: FOOD_IMGS.combo },
+    { id:'c85', name:'Combo 06', price:55, desc:'400g de carneiro + arroz à piamontese OU à grega OU baião + farofa + vinagrete.', img: FOOD_IMGS.combo },
+    { id:'c86', name:'Combo 07', price:50, desc:'400g de carne de sol + arroz branco + farofa + vinagrete.', img: FOOD_IMGS.carneSol },
+    { id:'c87', name:'Combo 08', price:55, desc:'400g de carne de sol + arroz à piamontese OU à grega OU baião + farofa + vinagrete.', img: FOOD_IMGS.carneSol },
+  ],
+  pratos: [
+    { id:'pr88', name:'Picanha c/ Arroz Branco', price:25, desc:'Picanha grelhada com arroz branco.', img: FOOD_IMGS.picanha },
+    { id:'pr89', name:'Picanha c/ Baião ou Arroz à Piamontese', price:27, desc:'Picanha com baião de dois ou arroz à piamontese.', img: FOOD_IMGS.picanha },
+    { id:'pr90', name:'Contra Filé c/ Arroz Branco', price:23, desc:'Contra filé grelhado com arroz branco.', img: FOOD_IMGS.churrasco },
+    { id:'pr91', name:'Contra Filé c/ Baião ou Arroz à Piamontese', price:25, desc:'Contra filé com baião ou arroz à piamontese.', img: FOOD_IMGS.churrasco },
+    { id:'pr92', name:'Calabresa Acebolada c/ Arroz Branco', price:20, desc:'Calabresa acebolada com arroz branco.', img: FOOD_IMGS.calabresa },
+    { id:'pr93', name:'Calabresa c/ Baião ou Arroz à Piamontese', price:23, desc:'Calabresa com baião ou arroz especial.', img: FOOD_IMGS.calabresa },
+    { id:'pr94', name:'Filé Trinchado ao Molho c/ Arroz Branco', price:22, desc:'Filé ao molho especial com arroz branco.', img: FOOD_IMGS.combo },
+    { id:'pr95', name:'Filé Trinchado ao Molho c/ Baião ou Arroz à Piamontese', price:25, desc:'Filé ao molho com baião ou arroz à piamontese.', img: FOOD_IMGS.combo },
+    { id:'pr96', name:'Carne de Sol c/ Arroz Branco', price:22, desc:'Carne de sol acebolada com arroz branco.', img: FOOD_IMGS.carneSol },
+    { id:'pr97', name:'Carne de Sol c/ Baião ou Arroz à Piamontese', price:25, desc:'Carne de sol com baião ou arroz à piamontese.', img: FOOD_IMGS.carneSol },
+    { id:'pr98', name:'Carneiro c/ Arroz Branco', price:22, desc:'Carneiro temperado com arroz branco.', img: FOOD_IMGS.combo },
+    { id:'pr99', name:'Carneiro c/ Baião ou Arroz à Piamontese', price:25, desc:'Carneiro com baião ou arroz à piamontese.', img: FOOD_IMGS.combo },
+  ],
+  guarnicoes: [
+    { id:'g107', name:'Arroz Branco', price:12, desc:'Arroz branco soltinho.', img: FOOD_IMGS.arroz },
+    { id:'g108', name:'Arroz à Grega', price:16, desc:'Arroz com legumes e temperos especiais.', img: FOOD_IMGS.arroz },
+    { id:'g109', name:'Arroz à Piamontese', price:16, desc:'Arroz cremoso à piamontese.', img: FOOD_IMGS.arroz },
+    { id:'g110', name:'Baião de Dois', price:16, desc:'Baião de dois nordestino tradicional.', img: FOOD_IMGS.feijao },
+    { id:'g111', name:'Risoto de Camarão', price:50, desc:'Risoto cremoso com camarão selecionado.', img: FOOD_IMGS.risoto },
+  ],
+  sobremesas: [
+    { id:'s112', name:'Espetinho Doce', price:15, desc:'Espetinho de frutas ou doces variados.', img: FOOD_IMGS.sobremesa },
+    { id:'s114', name:'Pudim', price:7, desc:'Pudim caseiro cremoso tradicional.', img: FOOD_IMGS.pudim },
+  ],
+  sucos: [
+    { id:'sj115', name:'Suco de Laranja', priceC:7, priceJ:15, desc:'Laranja natural refrescante.', img: FOOD_IMGS.suco, isJuice:true },
+    { id:'sj116', name:'Suco de Limão', priceC:7, priceJ:15, desc:'Limão natural refrescante.', img: FOOD_IMGS.suco, isJuice:true },
+    { id:'sj117', name:'Suco de Abacaxi', priceC:7, priceJ:15, desc:'Abacaxi natural gelado.', img: FOOD_IMGS.suco, isJuice:true },
+    { id:'sj118', name:'Suco de Acerola', priceC:7, priceJ:15, desc:'Acerola natural refrescante.', img: FOOD_IMGS.suco, isJuice:true },
+    { id:'sj119', name:'Suco de Maracujá', priceC:8, priceJ:17, desc:'Maracujá natural gelado.', img: FOOD_IMGS.suco, isJuice:true },
+    { id:'sj120', name:'Suco de Morango', priceC:8, priceJ:17, desc:'Morango natural refrescante.', img: FOOD_IMGS.suco, isJuice:true },
+    { id:'sj121', name:'Suco de Graviola', priceC:7, priceJ:15, desc:'Graviola natural cremosa.', img: FOOD_IMGS.suco, isJuice:true },
+    { id:'sj122', name:'Água de Coco', priceC:7, priceJ:15, desc:'Água de coco natural refrescante.', img: FOOD_IMGS.suco, isJuice:true },
+  ],
+  'pizzas-trad': [
+    { id:'pt31', name:'Mussarela', prices:{B:15,P:21,M:28,G:33,GG:39}, desc:'Clássica com mussarela e molho de tomate.', img: FOOD_IMGS.pizza, isPizza:true },
+    { id:'pt32', name:'Marguerita', prices:{B:16,P:22,M:29,G:34,GG:40}, desc:'Mussarela, tomate fresco e manjericão.', img: FOOD_IMGS.pizza, isPizza:true },
+    { id:'pt33', name:'Calabresa', prices:{B:16,P:22,M:29,G:34,GG:40}, desc:'Calabresa fatiada com cebola.', img: FOOD_IMGS.pizza2, isPizza:true },
+    { id:'pt34', name:'Calabacon', prices:{B:16,P:22,M:29,G:34,GG:40}, desc:'Calabresa com bacon.', img: FOOD_IMGS.pizza2, isPizza:true },
+    { id:'pt35', name:'Calacatu', prices:{B:17,P:23,M:30,G:35,GG:41}, desc:'Calabresa com catupiry especial.', img: FOOD_IMGS.pizza2, isPizza:true },
+    { id:'pt36', name:'Bacon', prices:{B:17,P:23,M:30,G:35,GG:41}, desc:'Bacon crocante com mussarela.', img: FOOD_IMGS.pizza, isPizza:true },
+    { id:'pt37', name:'Portuguesa', prices:{B:17,P:23,M:30,G:35,GG:41}, desc:'Presunto, ovos, cebola e azeitona.', img: FOOD_IMGS.pizza, isPizza:true },
+    { id:'pt38', name:'Caprichosa', prices:{B:17,P:23,M:30,G:35,GG:41}, desc:'Ingredientes caprichados da casa.', img: FOOD_IMGS.pizza, isPizza:true },
+    { id:'pt39', name:'Cearense', prices:{B:17,P:23,M:30,G:35,GG:41}, desc:'Sabor nordestino especial.', img: FOOD_IMGS.pizza2, isPizza:true },
+    { id:'pt40', name:'Frango c/ Catupiry ou Cheddar', prices:{B:17,P:23,M:30,G:35,GG:41}, desc:'Frango desfiado com catupiry ou cheddar.', img: FOOD_IMGS.pizza, isPizza:true },
+    { id:'pt41', name:'Mista', prices:{B:17,P:23,M:30,G:35,GG:41}, desc:'Mussarela com calabresa e presunto.', img: FOOD_IMGS.pizza, isPizza:true },
+    { id:'pt42', name:'Mista Especial', prices:{B:19,P:25,M:32,G:38,GG:43}, desc:'Mista com ingredientes premium especiais.', img: FOOD_IMGS.pizza, isPizza:true },
+    { id:'pt43', name:'Caipira', prices:{B:18,P:24,M:31,G:37,GG:41}, desc:'Frango caipira com temperos da roça.', img: FOOD_IMGS.pizza2, isPizza:true },
+    { id:'pt44', name:'Italiana', prices:{B:17,P:23,M:30,G:35,GG:40}, desc:'Sabores italianos tradicionais.', img: FOOD_IMGS.pizza, isPizza:true },
+    { id:'pt45', name:'Alho e Óleo', prices:{B:17,P:23,M:30,G:35,GG:40}, desc:'Alho tostado e azeite com mussarela.', img: FOOD_IMGS.pizza, isPizza:true },
+    { id:'pt46', name:'Atum', prices:{B:17,P:23,M:30,G:35,GG:40}, desc:'Atum com cebola e azeitona.', img: FOOD_IMGS.pizza2, isPizza:true },
+  ],
+  'pizzas-premium': [
+    { id:'pp47', name:'Carneiro', prices:{B:19,P:24,M:32,G:37,GG:42}, desc:'Carne de carneiro desfiada com tempero especial.', img: FOOD_IMGS.pizza3, isPizza:true },
+    { id:'pp48', name:'Santa Pizza', prices:{B:19,P:24,M:32,G:37,GG:42}, desc:'Combinação especial da casa — sabor inesquecível.', img: FOOD_IMGS.pizza3, isPizza:true },
+    { id:'pp49', name:'Carne de Sol', prices:{B:19,P:24,M:32,G:37,GG:42}, desc:'Carne de sol nordestina desfiada.', img: FOOD_IMGS.pizza3, isPizza:true },
+    { id:'pp50', name:'Carne de Sol c/ Catupiry ou Cheddar', prices:{B:19,P:24,M:32,G:37,GG:42}, desc:'Carne de sol com catupiry ou cheddar cremoso.', img: FOOD_IMGS.pizza3, isPizza:true },
+    { id:'pp51', name:'Carne de Sol c/ Cream Cheese', prices:{B:21,P:26,M:34,G:39,GG:45}, desc:'Carne de sol com cream cheese especial.', img: FOOD_IMGS.pizza3, isPizza:true },
+  ],
+  'pizzas-esp': [
+    { id:'pe52', name:'Salmão', prices:{B:28,P:37,M:42,G:47,GG:52}, desc:'Salmão fresco com cream cheese.', img: FOOD_IMGS.salmao, isPizza:true },
+    { id:'pe53', name:'Nacho', prices:{B:19,P:27,M:31,G:35,GG:40}, desc:'Nachos com ingredientes especiais.', img: FOOD_IMGS.nacho, isPizza:true },
+    { id:'pe54', name:'Picanha ao Alho', prices:{B:28,P:37,M:42,G:47,GG:52}, desc:'Picanha fatiada com alho tostado.', img: FOOD_IMGS.pizza3, isPizza:true },
+    { id:'pe55', name:'Filé ao Molho', prices:{B:22,P:30,M:35,G:40,GG:45}, desc:'Filé macio ao molho especial da casa.', img: FOOD_IMGS.pizza3, isPizza:true },
+    { id:'pe56', name:'Camarão', prices:{B:22,P:30,M:35,G:40,GG:45}, desc:'Camarão fresco com molho especial.', img: FOOD_IMGS.camarao, isPizza:true },
+    { id:'pe57', name:'Camarão c/ Catupiry ou Cheddar', prices:{B:23,P:31,M:36,G:41,GG:47}, desc:'Camarão com catupiry ou cheddar cremoso.', img: FOOD_IMGS.camarao, isPizza:true },
+    { id:'pe58', name:'Camarão c/ Cream Cheese', prices:{B:24,P:32,M:37,G:42,GG:49}, desc:'Camarão com cream cheese especial.', img: FOOD_IMGS.camarao, isPizza:true },
+    { id:'pe59', name:'Pernil c/ Barbecue', prices:{B:20,P:28,M:32,G:36,GG:42}, desc:'Pernil desfiado com molho barbecue.', img: FOOD_IMGS.pizza3, isPizza:true },
+    { id:'pe60', name:'Monte sua Pizza', prices:{B:30,P:40,M:44,G:50,GG:56}, desc:'Escolha os ingredientes que você quiser!', img: FOOD_IMGS.pizza, isPizza:true },
+  ],
+  'pizzas-doces': [
+    { id:'pd61', name:'KitKat', prices:{B:18,P:25,M:32,G:36,GG:42}, desc:'Chocolate KitKat com cobertura especial.', img: FOOD_IMGS.pizzaDoce, isPizza:true },
+    { id:'pd62', name:'Sensação', prices:{B:20,P:27,M:34,G:38,GG:44}, desc:'Morango fresco com chocolate e leite condensado.', img: FOOD_IMGS.pizzaDoce, isPizza:true },
+    { id:'pd63', name:'Prestígio', prices:{B:18,P:25,M:32,G:36,GG:42}, desc:'Coco com chocolate ao leite especial.', img: FOOD_IMGS.pizzaDoce, isPizza:true },
+    { id:'pd64', name:'Brigadeiro', prices:{B:18,P:25,M:32,G:36,GG:42}, desc:'Brigadeiro especial com granulado.', img: FOOD_IMGS.pizzaDoce, isPizza:true },
+    { id:'pd65', name:'Banana com Canela', prices:{B:19,P:26,M:33,G:37,GG:43}, desc:'Banana caramelizada com canela e doce de leite.', img: FOOD_IMGS.pizzaDoce, isPizza:true },
+    { id:'pd66', name:'Chocolate Branco com M&Ms', prices:{B:18,P:25,M:32,G:36,GG:42}, desc:'Chocolate branco derretido com M&Ms coloridos.', img: FOOD_IMGS.pizzaDoce, isPizza:true },
+    { id:'pd67', name:'Oreo', prices:{B:18,P:25,M:32,G:36,GG:42}, desc:'Oreo triturado com creme especial.', img: FOOD_IMGS.pizzaDoce, isPizza:true },
+  ],
+};
 
-    const grid = document.createElement('div');
-    grid.className = 'p-cat' + (first ? ' on' : '');
-    grid.id = 'cat_' + cat;
-
-    MENU[cat].forEach(item => grid.appendChild(makeCard(item, cat)));
-    wrap.appendChild(grid);
-    first = false;
-  }
+// Get all pizza flavors for multi-flavor selection
+function getAllPizzaFlavors() {
+  const cats = ['pizzas-trad','pizzas-premium','pizzas-esp','pizzas-doces'];
+  let flavors = [];
+  cats.forEach(cat => {
+    menuData[cat].forEach(item => {
+      flavors.push({ id: item.id, name: item.name, prices: item.prices });
+    });
+  });
+  return flavors;
 }
 
-function makeCard(item, cat) {
-  const card = document.createElement('div');
-  card.className = 'pcard';
+// ═══════════════════════════════════════════════
+// CART STATE
+// ═══════════════════════════════════════════════
 
-  const key = cat + '||' + item.n;
-  if (item.pizza && !selSizes[key]) selSizes[key] = 'Média';
+let cart = [];
+let selectedPayment = '';
 
-  let priceHtml;
-  if (item.pizza) {
-    const sz = selSizes[key] || 'Média';
-    priceHtml = `<div class="pcard-price" id="pr_${key.replace(/[^a-z0-9]/gi,'_')}">R$ ${fmtPrice(item.sz[sz])}</div>`;
-  } else if (item.p > 0) {
-    priceHtml = `<div class="pcard-price">R$ ${fmtPrice(item.p)}</div>`;
-  } else {
-    priceHtml = `<div class="pcard-price"><small>Sob consulta</small></div>`;
-  }
+// ═══════════════════════════════════════════════
+// RENDER MENUS
+// ═══════════════════════════════════════════════
 
-  let szHtml = '';
-  if (item.pizza) {
-    const cur = selSizes[key] || 'Média';
-    szHtml = `<div class="sz-row">${PIZZA_SIZES.map(s => `<span class="sz-chip${s===cur?' on':''}" data-key="${key}" data-sz="${s}" onclick="pickSize(this)">${s}</span>`).join('')}</div>`;
-  }
+function fmt(n) {
+  return 'R$ ' + n.toFixed(2).replace('.', ',');
+}
 
-  const canAdd = item.p > 0 || item.pizza;
+function renderMenus() {
+  Object.keys(menuData).forEach(cat => {
+    const grid = document.getElementById('grid-' + cat);
+    if (!grid) return;
+    grid.innerHTML = '';
+    menuData[cat].forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      card.onclick = () => openProductModal(item, cat);
 
-  card.innerHTML = `
-    <div class="pcard-img">
-      <div class="pcard-img-inner">${item.e}</div>
+      let priceHTML = '';
+      let bottomPrice = '';
+      if (item.isPizza) {
+        priceHTML = `<div class="pizza-sizes">`;
+        Object.entries(item.prices).forEach(([sz, pr]) => {
+          priceHTML += `<div class="size-chip">${sz} <span>${fmt(pr)}</span></div>`;
+        });
+        priceHTML += `</div>`;
+        bottomPrice = `A partir de ${fmt(Math.min(...Object.values(item.prices)))}`;
+      } else if (item.isJuice) {
+        bottomPrice = `Copo ${fmt(item.priceC)} | Jarra ${fmt(item.priceJ)}`;
+      } else {
+        bottomPrice = fmt(item.price);
+      }
+
+      card.innerHTML = `
+        <img class="product-img" src="${item.img}" alt="${item.name}" loading="lazy" onerror="this.src='${FOOD_IMGS.default}'">
+        <div class="product-body">
+          ${item.isPizza ? priceHTML : ''}
+          <div class="product-name">${item.name}</div>
+          <div class="product-desc">${item.desc}</div>
+          <div class="product-footer">
+            <div>
+              <div class="product-price">${item.isPizza ? 'A partir de ' + fmt(Math.min(...Object.values(item.prices))) : item.isJuice ? fmt(item.priceC) : fmt(item.price)}</div>
+              ${item.isJuice ? '<div class="product-price-note">Copo | Jarra disponível</div>' : ''}
+            </div>
+            <button class="add-btn" onclick="event.stopPropagation();openProductModal(${JSON.stringify(item).replace(/"/g,"'")}, '${cat}')">+</button>
+          </div>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  });
+}
+
+// ═══════════════════════════════════════════════
+// PRODUCT MODAL
+// ═══════════════════════════════════════════════
+
+let modalState = {
+  item: null,
+  qty: 1,
+  selectedSize: null,
+  selectedBorder: BORDERS[0],
+  selectedFlavors: [],
+  obs: '',
+  juiceSize: 'C',
+};
+
+function openProductModal(item, cat) {
+  // Parse if stringified
+  if (typeof item === 'string') item = JSON.parse(item.replace(/'/g,'"'));
+  
+  modalState = {
+    item, cat,
+    qty: 1,
+    selectedSize: item.isPizza ? 'G' : null,
+    selectedBorder: BORDERS[0],
+    selectedFlavors: item.isPizza ? [item] : [],
+    obs: '',
+    juiceSize: 'C',
+  };
+
+  const header = document.getElementById('modalHeader');
+  const body = document.getElementById('modalBody');
+
+  header.innerHTML = `
+    <img class="modal-img" src="${item.img}" alt="${item.name}" onerror="this.src='${FOOD_IMGS.default}'">
+    <div>
+      <div class="modal-name">${item.name}</div>
+      <div class="modal-desc-text">${item.desc}</div>
     </div>
-    <div class="pcard-body">
-      <div class="pcard-cat-tag">${cat}</div>
-      <div class="pcard-name">${item.n}</div>
-      <div class="pcard-desc">${item.d}</div>
-      ${szHtml}
-      <div class="pcard-foot">
-        ${priceHtml}
-        ${canAdd ? `<button class="add-btn" onclick="addItem(event,'${escJ(cat)}','${escJ(item.n)}')">＋ Adicionar</button>` : ''}
+  `;
+
+  let bodyHTML = '';
+
+  if (item.isPizza) {
+    // Size selector
+    bodyHTML += `<div>
+      <div class="modal-section-label">Tamanho</div>
+      <div class="size-options">`;
+    const sizeNames = { B:'Broto (B)', P:'Pequena (P)', M:'Média (M)', G:'Grande (G)', GG:'GG' };
+    Object.entries(item.prices).forEach(([sz, pr]) => {
+      bodyHTML += `<div class="size-option ${sz === 'G' ? 'selected' : ''}" onclick="selectSize('${sz}', this)" data-size="${sz}">
+        <div><div class="size-option-name">${sizeNames[sz]}</div></div>
+        <div class="size-option-price">${fmt(pr)}</div>
+      </div>`;
+    });
+    bodyHTML += `</div></div>`;
+
+    // Second flavor (multi-flavor)
+    const allFlavors = getAllPizzaFlavors().filter(f => f.id !== item.id);
+    bodyHTML += `<div>
+      <div class="modal-section-label">Adicionar 2º sabor (opcional)</div>
+      <div class="flavor-note">💡 Cobramos pelo sabor de maior valor</div>
+      <div class="flavors-grid" id="flavorsGrid">`;
+    allFlavors.forEach(fl => {
+      bodyHTML += `<div class="flavor-item" onclick="toggleFlavor(this, '${fl.id}', '${fl.name.replace(/'/g,'\\\'')}')" data-flavor-id="${fl.id}" data-flavor-name="${fl.name}">
+        ${fl.name}
+      </div>`;
+    });
+    bodyHTML += `</div></div>`;
+
+    // Borders
+    bodyHTML += `<div>
+      <div class="modal-section-label">Borda</div>
+      <div class="border-options">`;
+    BORDERS.forEach((b, i) => {
+      bodyHTML += `<div class="border-option ${i === 0 ? 'selected' : ''}" onclick="selectBorder(${i}, this)">
+        <span>${b.name}</span>
+        <span class="border-option-price">${b.price > 0 ? fmt(b.price) : 'Grátis'}</span>
+      </div>`;
+    });
+    bodyHTML += `</div></div>`;
+
+  } else if (item.isJuice) {
+    bodyHTML += `<div>
+      <div class="modal-section-label">Tamanho</div>
+      <div class="juice-options">
+        <div class="juice-option selected" onclick="selectJuice('C', this)">
+          <div class="juice-option-label">🥤 Copo</div>
+          <div class="juice-option-price">${fmt(item.priceC)}</div>
+        </div>
+        <div class="juice-option" onclick="selectJuice('J', this)">
+          <div class="juice-option-label">🍶 Jarra</div>
+          <div class="juice-option-price">${fmt(item.priceJ)}</div>
+        </div>
       </div>
     </div>`;
-  return card;
-}
-
-function escJ(s) { return s.replace(/'/g,"\\'").replace(/"/g,'\\"'); }
-function fmtPrice(n) { return n.toFixed(2).replace('.',','); }
-
-function pickSize(el) {
-  const key = el.dataset.key;
-  const sz = el.dataset.sz;
-  selSizes[key] = sz;
-  const card = el.closest('.pcard');
-  card.querySelectorAll('.sz-chip').forEach(c => c.classList.toggle('on', c.dataset.sz === sz));
-  // update price display
-  const pid = 'pr_' + key.replace(/[^a-z0-9]/gi,'_');
-  const prEl = card.querySelector('.pcard-price');
-  // find item
-  const [cat] = key.split('||');
-  const itm = MENU[cat] && MENU[cat].find(i => cat+'||'+i.n === key);
-  if (itm && itm.pizza && prEl) prEl.textContent = 'R$ ' + fmtPrice(itm.sz[sz]);
-}
-
-function switchCat(cat) {
-  document.querySelectorAll('.cat-pill').forEach(p => p.classList.toggle('on', p.dataset.cat === cat));
-  document.querySelectorAll('.p-cat').forEach(g => g.classList.remove('on'));
-  const el = document.getElementById('cat_' + cat);
-  if (el) el.classList.add('on');
-}
-
-/* ═══════════════════════════════════════════════════════
-   ADD TO CART
-═══════════════════════════════════════════════════════ */
-function addItem(e, cat, name) {
-  e.stopPropagation();
-  const item = (MENU[cat] || []).find(i => i.n === name);
-  if (!item) return;
-  let price = item.p, displayName = item.n;
-
-  if (item.pizza) {
-    const key = cat + '||' + item.n;
-    const sz = selSizes[key] || 'Média';
-    price = item.sz[sz];
-    displayName = 'Pizza ' + item.n + ' (' + sz + ')';
-  }
-  if (price === 0) { toast('⚠️ Consulte o preço pelo WhatsApp!','error'); return; }
-
-  const ex = cart.find(c => c.name === displayName);
-  if (ex) ex.qty++;
-  else cart.push({name:displayName, price, qty:1, emoji:item.e});
-
-  updateUI();
-  toast('✅ ' + displayName + ' adicionado!', 'success');
-
-  const btn = e.target.closest('.add-btn');
-  if (btn) { btn.classList.add('pop'); setTimeout(()=>btn.classList.remove('pop'),350); }
-}
-
-function rmItem(i) { cart.splice(i,1); updateUI(); }
-function chQty(i,d) { cart[i].qty += d; if(cart[i].qty<=0) cart.splice(i,1); updateUI(); }
-
-/* ═══════════════════════════════════════════════════════
-   DELIVERY / PAYMENT SELECTORS
-═══════════════════════════════════════════════════════ */
-function selectDelivery(mode) {
-  deliveryMode = mode;
-  document.getElementById('dopt-delivery').classList.toggle('on', mode==='delivery');
-  document.getElementById('dopt-pickup').classList.toggle('on', mode==='pickup');
-  document.getElementById('deliveryFields').style.display = mode==='delivery' ? '' : 'none';
-  document.getElementById('pickupFields').style.display  = mode==='pickup'   ? '' : 'none';
-}
-
-function selectPay(mode) {
-  payMode = mode;
-  ['pix','card','cash','vr'].forEach(m => document.getElementById('popt-'+m).classList.toggle('on', m===mode));
-  document.getElementById('cardSubOpts').style.display = mode==='card' ? '' : 'none';
-  document.getElementById('trocoBox').style.display    = mode==='cash' ? '' : 'none';
-  if(mode!=='card') { cardType=null; document.querySelectorAll('.csopt').forEach(el=>el.classList.remove('on')); }
-}
-
-function selectCardType(type) {
-  cardType = type;
-  document.getElementById('csopt-cred').classList.toggle('on', type==='credito');
-  document.getElementById('csopt-deb').classList.toggle('on', type==='debito');
-}
-
-/* ═══════════════════════════════════════════════════════
-   STEP NAVIGATION
-═══════════════════════════════════════════════════════ */
-function nextStep() {
-  if (step === 1) {
-    if (cart.length === 0) { toast('Adicione itens ao carrinho!','error'); return; }
-    goStep(2);
-  } else if (step === 2) {
-    const name = deliveryMode==='delivery'
-      ? document.getElementById('fName').value.trim()
-      : document.getElementById('fNameP').value.trim();
-    const addr = deliveryMode==='delivery' ? document.getElementById('fAddr').value.trim() : 'Retirada no local';
-    if (!name) { toast('⚠️ Informe seu nome!','error'); return; }
-    if (deliveryMode==='delivery' && !addr) { toast('⚠️ Informe o endereço!','error'); return; }
-    goStep(3);
-  } else if (step === 3) {
-    if (!payMode) { toast('⚠️ Selecione a forma de pagamento!','error'); return; }
-    if (payMode==='card' && !cardType) { toast('⚠️ Selecione crédito ou débito!','error'); return; }
-    buildReview();
-    goStep(4);
-  } else if (step === 4) {
-    sendWhatsApp();
-  }
-}
-
-function prevStep() {
-  if (step > 1) goStep(step - 1);
-}
-
-function goStep(s) {
-  step = s;
-  // panels
-  for(let i=1;i<=4;i++) {
-    document.getElementById('panel'+i).classList.toggle('on', i===s);
-  }
-  // step indicators
-  for(let i=1;i<=4;i++) {
-    const st = document.getElementById('st'+i);
-    const sd = document.getElementById('sd'+i);
-    if (i < s) { st.className='cstep done'; sd.textContent='✓'; }
-    else if (i === s) { st.className='cstep on'; sd.textContent=i; }
-    else { st.className='cstep'; sd.textContent=i; }
-    if(i<4) {
-      const conn = document.getElementById('sc'+i);
-      conn.style.background = i < s ? 'var(--green)' : 'var(--border)';
-    }
-  }
-  // footer buttons
-  const row = document.getElementById('cartBtnRow');
-  const mainBtn = document.getElementById('mainBtn');
-  row.innerHTML = '';
-
-  if (s > 1) {
-    const back = document.createElement('button');
-    back.className='cbtn-back';
-    back.innerHTML='← Voltar';
-    back.onclick=prevStep;
-    row.appendChild(back);
   }
 
-  if (s < 4) {
-    const next = document.createElement('button');
-    next.className='cbtn-next';
-    next.id='mainBtn';
-    next.innerHTML = s===1 ? 'Continuar →' : s===2 ? 'Pagamento →' : 'Revisar Pedido →';
-    next.disabled = s===1 && cart.length===0;
-    next.onclick=nextStep;
-    row.appendChild(next);
+  // Obs
+  bodyHTML += `<div>
+    <div class="modal-section-label">Observações (opcional)</div>
+    <textarea class="obs-input" id="modalObs" rows="2" placeholder="Sem cebola, ponto da carne, etc..." oninput="modalState.obs=this.value"></textarea>
+  </div>`;
+
+  body.innerHTML = bodyHTML;
+  renderModalFooter();
+
+  document.getElementById('productModal').classList.add('open');
+}
+
+function renderModalFooter() {
+  const item = modalState.item;
+  let price = 0;
+
+  if (item.isPizza) {
+    const sz = modalState.selectedSize || 'G';
+    // get max price among selected flavors for the size
+    let maxPrice = item.prices[sz] || 0;
+    modalState.selectedFlavors.forEach(fl => {
+      if (fl.prices && fl.prices[sz] > maxPrice) maxPrice = fl.prices[sz];
+    });
+    price = maxPrice + modalState.selectedBorder.price;
+  } else if (item.isJuice) {
+    price = modalState.juiceSize === 'C' ? item.priceC : item.priceJ;
   } else {
-    const wpp = document.createElement('button');
-    wpp.className='cbtn-wpp';
-    wpp.innerHTML='📱 Enviar pelo WhatsApp';
-    wpp.onclick=nextStep;
-    row.appendChild(wpp);
+    price = item.price;
   }
-}
 
-function buildReview() {
-  const name = deliveryMode==='delivery'
-    ? document.getElementById('fName').value.trim()
-    : document.getElementById('fNameP').value.trim();
-  const addr = deliveryMode==='delivery' ? document.getElementById('fAddr').value.trim() : '';
-  const bairro = document.getElementById('fBairro') ? document.getElementById('fBairro').value.trim() : '';
-  const ref = document.getElementById('fRef') ? document.getElementById('fRef').value.trim() : '';
-  const obs = document.getElementById('fObs').value.trim();
-  const troco = document.getElementById('fTroco') ? document.getElementById('fTroco').value.trim() : '';
-  const total = cart.reduce((s,c)=>s+c.price*c.qty,0);
+  const total = price * modalState.qty;
 
-  let payLabel = '';
-  if (payMode==='pix') payLabel='⚡ PIX';
-  else if (payMode==='card') payLabel=(cardType==='credito'?'💳 Cartão de Crédito':'💳 Cartão de Débito');
-  else if (payMode==='cash') payLabel='💵 Dinheiro' + (troco?` (troco p/ ${troco})`:'');
-  else if (payMode==='vr') payLabel='🎫 Vale-Refeição';
-
-  const rc = document.getElementById('reviewCard');
-  rc.innerHTML = `
-    <div class="rc-head">Resumo do Pedido</div>
-    <div class="rc-items-list">
-      ${cart.map(c=>`
-        <div class="rc-item">
-          <div class="rc-item-l">${c.emoji} ${c.name} ×${c.qty}</div>
-          <div class="rc-item-r">R$ ${fmtPrice(c.price*c.qty)}</div>
-        </div>`).join('')}
+  document.getElementById('modalFooter').innerHTML = `
+    <div class="modal-price-display">
+      <div class="modal-qty-control">
+        <button class="modal-qty-btn" onclick="changeModalQty(-1)">−</button>
+        <span class="modal-qty-num">${modalState.qty}</span>
+        <button class="modal-qty-btn" onclick="changeModalQty(1)">+</button>
+      </div>
+      <div class="modal-total">${fmt(total)}</div>
     </div>
-    <div class="rc-head" style="margin-top:0;border-top:1px solid var(--border)">Dados</div>
-    <div class="rc-item"><div class="rc-item-l">👤 Nome</div><div class="rc-item-r">${name}</div></div>
-    ${deliveryMode==='delivery'?`
-    <div class="rc-item"><div class="rc-item-l">📍 Endereço</div><div class="rc-item-r">${addr}${bairro?', '+bairro:''}</div></div>
-    ${ref?`<div class="rc-item"><div class="rc-item-l">🏷️ Referência</div><div class="rc-item-r">${ref}</div></div>`:''}
-    `:`<div class="rc-item"><div class="rc-item-l">🏪 Entrega</div><div class="rc-item-r">Retirada no local</div></div>`}
-    ${obs?`<div class="rc-item"><div class="rc-item-l">📝 Obs</div><div class="rc-item-r">${obs}</div></div>`:''}
-    <div class="rc-item"><div class="rc-item-l">💳 Pagamento</div><div class="rc-item-r">${payLabel}</div></div>
-    <div class="rc-total">
-      <span class="rc-total-l">TOTAL</span>
-      <span class="rc-total-r">R$ ${fmtPrice(total)}</span>
+    <button class="modal-add-btn" onclick="addToCartFromModal()">🛒 Adicionar ao pedido — ${fmt(total)}</button>
+    <button onclick="document.getElementById('productModal').classList.remove('open')" style="width:100%;background:none;border:none;color:var(--white-dim);padding:10px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.85rem;">Cancelar</button>
+  `;
+}
+
+function selectSize(sz, el) {
+  modalState.selectedSize = sz;
+  document.querySelectorAll('.size-option').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  // Re-check flavors max price
+  renderModalFooter();
+}
+
+function selectBorder(idx, el) {
+  modalState.selectedBorder = BORDERS[idx];
+  document.querySelectorAll('.border-option').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  renderModalFooter();
+}
+
+function toggleFlavor(el, id, name) {
+  const item = modalState.item;
+  const flavor = getAllPizzaFlavors().find(f => f.id === id);
+  const already = modalState.selectedFlavors.find(f => f.id === id);
+  
+  if (already) {
+    modalState.selectedFlavors = modalState.selectedFlavors.filter(f => f.id !== id);
+    el.classList.remove('selected');
+  } else {
+    // Max 1 extra flavor
+    if (modalState.selectedFlavors.filter(f => f.id !== item.id).length >= 1) {
+      // Remove previous extra
+      const prev = modalState.selectedFlavors.find(f => f.id !== item.id);
+      if (prev) {
+        modalState.selectedFlavors = modalState.selectedFlavors.filter(f => f.id === item.id);
+        document.querySelectorAll(`[data-flavor-id="${prev.id}"]`).forEach(e => e.classList.remove('selected'));
+      }
+    }
+    if (flavor) modalState.selectedFlavors.push(flavor);
+    el.classList.add('selected');
+  }
+  renderModalFooter();
+}
+
+function selectJuice(sz, el) {
+  modalState.juiceSize = sz;
+  document.querySelectorAll('.juice-option').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  renderModalFooter();
+}
+
+function changeModalQty(delta) {
+  modalState.qty = Math.max(1, modalState.qty + delta);
+  renderModalFooter();
+}
+
+function addToCartFromModal() {
+  const item = modalState.item;
+  let price = 0;
+  let detail = '';
+
+  if (item.isPizza) {
+    const sz = modalState.selectedSize || 'G';
+    const sizeNames = { B:'Broto', P:'Pequena', M:'Média', G:'Grande', GG:'GG' };
+    let maxPrice = item.prices[sz] || 0;
+    let flavorNames = [item.name];
+    modalState.selectedFlavors.forEach(fl => {
+      if (fl.id !== item.id) {
+        if (fl.prices && fl.prices[sz] > maxPrice) maxPrice = fl.prices[sz];
+        flavorNames.push(fl.name);
+      }
+    });
+    price = maxPrice + modalState.selectedBorder.price;
+    detail = `Tamanho: ${sizeNames[sz]}`;
+    if (flavorNames.length > 1) detail += ` | Sabores: ${flavorNames.join(' + ')}`;
+    if (modalState.selectedBorder.price > 0) detail += ` | ${modalState.selectedBorder.name}`;
+  } else if (item.isJuice) {
+    price = modalState.juiceSize === 'C' ? item.priceC : item.priceJ;
+    detail = modalState.juiceSize === 'C' ? 'Copo' : 'Jarra';
+  } else {
+    price = item.price;
+  }
+
+  if (modalState.obs) detail += (detail ? ' | ' : '') + 'Obs: ' + modalState.obs;
+
+  const cartItem = {
+    id: Date.now(),
+    productId: item.id,
+    name: item.name,
+    price,
+    qty: modalState.qty,
+    detail,
+    img: item.img,
+  };
+
+  cart.push(cartItem);
+  renderCart();
+  document.getElementById('productModal').classList.remove('open');
+  openCart();
+}
+
+// ═══════════════════════════════════════════════
+// CART
+// ═══════════════════════════════════════════════
+
+function renderCart() {
+  const container = document.getElementById('cartItems');
+  const badge = document.getElementById('cartBadge');
+  const checkoutBtn = document.getElementById('checkoutBtn');
+  
+  const totalQty = cart.reduce((a, c) => a + c.qty, 0);
+  badge.textContent = totalQty;
+  checkoutBtn.disabled = cart.length === 0;
+
+  if (cart.length === 0) {
+    container.innerHTML = `<div class="cart-empty">
+      <div class="cart-empty-icon">🛒</div>
+      <div class="cart-empty-text">Carrinho vazio</div>
+      <div class="cart-empty-sub">Adicione itens do cardápio</div>
     </div>`;
-}
-
-/* ═══════════════════════════════════════════════════════
-   WHATSAPP
-═══════════════════════════════════════════════════════ */
-function sendWhatsApp() {
-  const name = deliveryMode==='delivery'
-    ? document.getElementById('fName').value.trim()
-    : document.getElementById('fNameP').value.trim();
-  const addr = deliveryMode==='delivery' ? document.getElementById('fAddr').value.trim() : '';
-  const bairro = document.getElementById('fBairro').value.trim();
-  const ref = document.getElementById('fRef').value.trim();
-  const obs = document.getElementById('fObs').value.trim();
-  const troco = document.getElementById('fTroco').value.trim();
-  const total = cart.reduce((s,c)=>s+c.price*c.qty,0);
-
-  let payLabel='';
-  if(payMode==='pix') payLabel='⚡ PIX';
-  else if(payMode==='card') payLabel=(cardType==='credito'?'💳 Cartão de Crédito':'💳 Cartão de Débito');
-  else if(payMode==='cash') payLabel='💵 Dinheiro'+(troco?` — troco p/ ${troco}`:'');
-  else if(payMode==='vr') payLabel='🎫 Vale-Refeição';
-
-  let msg='🍽️ *NOVO PEDIDO — SANTO ESPETO*\n';
-  msg+='━━━━━━━━━━━━━━━━━━━\n';
-  msg+=`👤 *Cliente:* ${name}\n`;
-  if(deliveryMode==='delivery'){
-    msg+=`📍 *Endereço:* ${addr}${bairro?', '+bairro:''}\n`;
-    if(ref) msg+=`🏷️ *Referência:* ${ref}\n`;
-  } else {
-    msg+='🏪 *Retirada no local*\n';
-  }
-  if(obs) msg+=`📝 *Obs:* ${obs}\n`;
-  msg+='━━━━━━━━━━━━━━━━━━━\n';
-  msg+='*ITENS DO PEDIDO:*\n\n';
-  cart.forEach(c=>{
-    msg+=`${c.emoji} *${c.name}*\n`;
-    msg+=`   ${c.qty}x R$ ${fmtPrice(c.price)} = *R$ ${fmtPrice(c.price*c.qty)}*\n\n`;
-  });
-  msg+='━━━━━━━━━━━━━━━━━━━\n';
-  msg+=`💰 *TOTAL: R$ ${fmtPrice(total)}*\n`;
-  msg+=`💳 *Pagamento:* ${payLabel}\n`;
-  msg+='━━━━━━━━━━━━━━━━━━━\n';
-  msg+='Aguardo confirmação! 🙏';
-
-  window.open('https://wa.me/5588997643053?text='+encodeURIComponent(msg),'_blank');
-}
-
-/* ═══════════════════════════════════════════════════════
-   UPDATE UI
-═══════════════════════════════════════════════════════ */
-function updateUI() {
-  const total = cart.reduce((s,c)=>s+c.price*c.qty,0);
-  const count = cart.reduce((s,c)=>s+c.qty,0);
-
-  // badges
-  const ncb = document.getElementById('ncbadge');
-  const fb = document.getElementById('fabbadge');
-  ncb.textContent = count; ncb.classList.toggle('on', count>0);
-  fb.textContent = count; fb.classList.toggle('on', count>0);
-  document.getElementById('fab').classList.toggle('on', count>0);
-
-  // total
-  document.getElementById('ctval').textContent = 'R$ ' + fmtPrice(total);
-
-  // cart items
-  const itemsEl = document.getElementById('cartItems');
-  const subEl   = document.getElementById('cartSub');
-  if (cart.length===0) {
-    itemsEl.innerHTML=`<div class="cart-empty-state"><span class="ces-icon">🍽️</span><span class="ces-t">Seu carrinho está vazio.<br>Explore o cardápio e adicione itens!</span></div>`;
-    subEl.style.display='none';
-  } else {
-    itemsEl.innerHTML=cart.map((c,i)=>`
-      <div class="citem">
-        <div class="ci-emo">${c.emoji}</div>
-        <div class="ci-info">
-          <div class="ci-name">${c.name}</div>
-          <div class="ci-price">R$ ${fmtPrice(c.price*c.qty)}</div>
-        </div>
-        <div class="ci-ctrl">
-          <button class="qbtn" onclick="chQty(${i},-1)">−</button>
-          <span class="qn">${c.qty}</span>
-          <button class="qbtn" onclick="chQty(${i},1)">+</button>
-          <button class="ci-rm" onclick="rmItem(${i})">🗑</button>
-        </div>
-      </div>`).join('');
-    subEl.style.display='flex';
-    document.getElementById('cartSubVal').textContent = 'R$ '+fmtPrice(total);
+    document.getElementById('cartSubtotal').textContent = 'R$ 0,00';
+    document.getElementById('cartTotal').textContent = 'R$ 0,00';
+    return;
   }
 
-  // main btn step 1
-  const mb = document.getElementById('mainBtn');
-  if(mb && step===1) mb.disabled = cart.length===0;
-}
-
-/* ═══════════════════════════════════════════════════════
-   CART OPEN / CLOSE
-═══════════════════════════════════════════════════════ */
-function openCart() {
-  document.getElementById('cart').classList.add('on');
-  document.getElementById('cart-ov').classList.add('on');
-  document.body.style.overflow='hidden';
-  if(step!==1) { step=1; goStep(1); }
-}
-function closeCart() {
-  document.getElementById('cart').classList.remove('on');
-  document.getElementById('cart-ov').classList.remove('on');
-  document.body.style.overflow='';
-}
-
-/* ═══════════════════════════════════════════════════════
-   TOAST
-═══════════════════════════════════════════════════════ */
-function toast(msg, type='') {
-  const c=document.getElementById('toasts');
-  const t=document.createElement('div');
-  t.className='toast'+(type?' '+type:'');
-  t.textContent=msg;
-  c.appendChild(t);
-  setTimeout(()=>t.remove(),2700);
-}
-
-/* ═══════════════════════════════════════════════════════
-   NAVBAR SCROLL
-═══════════════════════════════════════════════════════ */
-window.addEventListener('scroll',()=>{
-  document.getElementById('nav').classList.toggle('on',window.scrollY>40);
-});
-
-/* ═══════════════════════════════════════════════════════
-   MOBILE MENU
-═══════════════════════════════════════════════════════ */
-function toggleMob(){document.getElementById('mmenu').classList.toggle('on')}
-function closeMob(){document.getElementById('mmenu').classList.remove('on')}
-
-/* ═══════════════════════════════════════════════════════
-   SCROLL REVEAL
-═══════════════════════════════════════════════════════ */
-const revObs = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
-},{threshold:0.12});
-document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
-
-/* ═══════════════════════════════════════════════════════
-   PARTICLES
-═══════════════════════════════════════════════════════ */
-function spawnParticles() {
-  const hero = document.getElementById('hero');
-  const emojis = ['🍕','🥩','🍔','🦐','🍗','🫘','🧀'];
-  for(let i=0;i<12;i++){
-    const p=document.createElement('div');
-    p.className='particle';
-    p.style.cssText=`
-      left:${Math.random()*100}%;
-      bottom:-50px;
-      font-size:${1+Math.random()*1.5}rem;
-      animation-duration:${8+Math.random()*10}s;
-      animation-delay:${Math.random()*8}s;
+  container.innerHTML = '';
+  let total = 0;
+  cart.forEach(ci => {
+    total += ci.price * ci.qty;
+    const el = document.createElement('div');
+    el.className = 'cart-item';
+    el.innerHTML = `
+      <img class="cart-item-img" src="${ci.img}" alt="${ci.name}" onerror="this.src='${FOOD_IMGS.default}'">
+      <div class="cart-item-info">
+        <div class="cart-item-name">${ci.name}</div>
+        ${ci.detail ? `<div class="cart-item-detail">${ci.detail}</div>` : ''}
+        <div class="cart-item-controls">
+          <button class="qty-btn" onclick="changeCartQty(${ci.id}, -1)">−</button>
+          <span class="qty-num">${ci.qty}</span>
+          <button class="qty-btn" onclick="changeCartQty(${ci.id}, 1)">+</button>
+          <button class="cart-item-remove" onclick="removeCartItem(${ci.id})">🗑️</button>
+        </div>
+      </div>
+      <div class="cart-item-price">${fmt(ci.price * ci.qty)}</div>
     `;
-    p.textContent=emojis[Math.floor(Math.random()*emojis.length)];
-    hero.appendChild(p);
+    container.appendChild(el);
+  });
+
+  document.getElementById('cartSubtotal').textContent = fmt(total);
+  document.getElementById('cartTotal').textContent = fmt(total);
+}
+
+function changeCartQty(id, delta) {
+  const item = cart.find(c => c.id === id);
+  if (!item) return;
+  item.qty = Math.max(1, item.qty + delta);
+  renderCart();
+}
+
+function removeCartItem(id) {
+  cart = cart.filter(c => c.id !== id);
+  renderCart();
+}
+
+function openCart() {
+  document.getElementById('cartOverlay').classList.add('open');
+  document.getElementById('cartSidebar').classList.add('open');
+}
+
+function closeCart() {
+  document.getElementById('cartOverlay').classList.remove('open');
+  document.getElementById('cartSidebar').classList.remove('open');
+}
+
+// ═══════════════════════════════════════════════
+// CHECKOUT
+// ═══════════════════════════════════════════════
+
+function openCheckout() {
+  closeCart();
+  document.getElementById('checkoutModal').classList.add('open');
+}
+
+function selectPayment(method, el) {
+  selectedPayment = method;
+  document.querySelectorAll('.pay-option').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('trocoArea').className = 'troco-area' + (method === 'dinheiro' ? ' visible' : '');
+}
+
+function sendToWhatsApp() {
+  const name = document.getElementById('clientName').value.trim();
+  const phone = document.getElementById('clientPhone').value.trim();
+  const address = document.getElementById('clientAddress').value.trim();
+  const troco = document.getElementById('trocoVal').value;
+
+  if (!name) { alert('Por favor, informe seu nome.'); return; }
+  if (!address) { alert('Por favor, informe o endereço de entrega.'); return; }
+  if (!selectedPayment) { alert('Por favor, escolha a forma de pagamento.'); return; }
+
+  const payLabels = { pix:'Pix', dinheiro:'Dinheiro', credito:'Cartão de Crédito', debito:'Cartão de Débito' };
+  const total = cart.reduce((a, c) => a + c.price * c.qty, 0);
+
+  let itemsText = '';
+  cart.forEach(ci => {
+    itemsText += `\n• ${ci.name} x${ci.qty} — ${fmt(ci.price * ci.qty)}`;
+    if (ci.detail) itemsText += `\n  ↳ ${ci.detail}`;
+  });
+
+  let msg = `━━━━━━━━━━━━━━\n🍽️ NOVO PEDIDO\n━━━━━━━━━━━━━━\n\n`;
+  msg += `👤 Nome: ${name}\n`;
+  if (phone) msg += `📞 Telefone: ${phone}\n`;
+  msg += `📍 Endereço: ${address}\n\n`;
+  msg += `🛒 Pedido:${itemsText}\n\n`;
+  msg += `💳 Pagamento: ${payLabels[selectedPayment]}`;
+  if (selectedPayment === 'dinheiro' && troco) msg += `\n💰 Troco para: R$ ${troco}`;
+  msg += `\n\n🧾 Total: ${fmt(total)}\n\n━━━━━━━━━━━━━━`;
+
+  const url = `https://wa.me/5588997643053?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+  document.getElementById('checkoutModal').classList.remove('open');
+}
+
+// ═══════════════════════════════════════════════
+// CATEGORY FILTER
+// ═══════════════════════════════════════════════
+
+function filterCat(cat, btn) {
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  document.querySelectorAll('.menu-section[data-cat]').forEach(sec => {
+    if (cat === 'all' || sec.dataset.cat === cat) {
+      sec.style.display = '';
+    } else {
+      sec.style.display = 'none';
+    }
+  });
+
+  if (cat !== 'all') {
+    const el = document.getElementById('sec-' + cat);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }
 
-/* ═══════════════════════════════════════════════════════
-   INIT
-═══════════════════════════════════════════════════════ */
-window.addEventListener('load',()=>{
-  buildMenu();
-  updateUI();
-  goStep(1);
-  spawnParticles();
+function scrollTo(selector) {
+  const el = document.querySelector(selector);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
 
-  // observe newly added .reveal elements after menu build
-  document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
+// ═══════════════════════════════════════════════
+// SCROLL ANIMATIONS
+// ═══════════════════════════════════════════════
 
-  setTimeout(()=>{
-    document.getElementById('loading').classList.add('out');
-  },2100);
+function initReveal() {
+  const els = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  els.forEach(el => obs.observe(el));
+}
+
+// Close modals on overlay click
+document.getElementById('productModal').addEventListener('click', function(e) {
+  if (e.target === this) this.classList.remove('open');
+});
+document.getElementById('checkoutModal').addEventListener('click', function(e) {
+  if (e.target === this) this.classList.remove('open');
 });
 
-document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeCart(); });
+// Mobile menu toggle
+function toggleMobileMenu() {
+  // Simple scroll to menu
+  document.getElementById('cardapio').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderMenus();
+  renderCart();
+  initReveal();
+
+  setTimeout(() => {
+    document.getElementById('loading').classList.add('hidden');
+  }, 2000);
+});
 </script>
 </body>
 </html>
